@@ -52,6 +52,7 @@ public class Main {
         int choice;
         String input;
         do{
+            System.out.println("
             System.out.println("\n  _______   ______     ______ ____    ____  ______  __       _______ ");
             System.out.println(" /  _____| /  __  \\   /      |\\   \\  /   / /      ||  |     |   ____|");
             System.out.println("|  |  __  |  |  |  | |  ,----' \\   \\/   / |  ,----'|  |     |  |__   ");
