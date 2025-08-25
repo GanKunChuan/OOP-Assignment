@@ -61,9 +61,10 @@ public class Main {
             System.out.println("======================================================================");
             System.out.println("                 WELCOME TO GOCYCLE BICYCLE RENTAL!!");
             System.out.println("======================================================================");
-            System.out.println("1. Customer Login");
-            System.out.println("2. Customer Register");
-            System.out.println("3. Exit");
+            System.out.println("1. Admin Login");
+            System.out.println("2. Customer Login");
+            System.out.println("3. Customer Register");
+            System.out.println("4. Exit");
             
             // Input validation loop
             boolean isNumber;
@@ -95,15 +96,18 @@ public class Main {
                     loginUser();
                     break;
                 case 2:
-                    register();
+                    loginUser();
                     break;
                 case 3:
+                    register();
+                    break;
+                case 4:
                     System.out.println("Thank you for using GOCYCLE Rental System!");
                     break;
                 default:
                     System.out.println("Invalid choice. Please Try Again.");
             }
-        }while(choice != 3);
+        }while(choice != 4);
     }
 
     private static void loginUser() {
