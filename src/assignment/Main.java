@@ -108,7 +108,6 @@ public class Main {
                     System.out.println("Invalid choice. Please Try Again.");
             }
         }while(choice != 4);
-        
     }
 
     private static void loginUser() {
