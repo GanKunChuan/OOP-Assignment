@@ -439,7 +439,8 @@ public class Main {
                 System.out.println("\nBooking cancel. Return to Menu...");
                 break;
             }
-        }while(confirm != 'Y' && confirm != 'N');        
+        }while(confirm != 'Y' && confirm != 'N');   
+        
     }
 
     private static void returnBicycle(Customer customer) {
