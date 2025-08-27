@@ -139,44 +139,93 @@ public class Main {
     }
 
     private static void register() {
-        System.out.println("Customer Registration");
-        System.out.print("Enter Name: ");
-        String name = sc.nextLine();
         // name validation, only character and must > 4, loop to enter again
-        
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine();
-        // email validation and a loop to enter again
-        // Check if email already exists
-        for (User u: users){
-            if(u.email.equals(email)){
-                System.out.println("Email already registered.");
+        String name;
+        while (true) {
+            System.out.print("Enter Name(Only letters and spaces allowed, min 4 characters): ");
+            name = sc.nextLine().trim();
+            if (name.matches("^[A-Za-z ]{4,}$")) {
+                break;
+            } else {
+                System.out.println("Invalid name! Try again.");
             }
         }
         
-        System.out.print("Enter Identitty Card: ");
-        String ic = sc.nextLine();
-        // ic format validation and a loop to enter again
-        
-        System.out.print("Enter PhoneNo: ");
-        String phoneNo = sc.nextLine();
-        // phone validation, 10-11digit start with 01, loop to enter again
-        
-        char gender;
-        do{
-            System.out.print("Enter Gender(M/F): ");
-            String g = sc.nextLine().toUpperCase();
-            if(g.length() == 1){
-                gender = g.charAt(0);
-            }else{
-                gender = 'X';
+        // email validation and a loop to enter again
+        String email;
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = sc.nextLine().trim();
+
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                System.out.println("Invalid email format! Try again.");
+                continue;
             }
-        }while (gender != 'M' && gender != 'F');
-        // validation only F & M , loop to enter agian
         
-        System.out.print("Enter Password: ");
-        String password = sc.nextLine();
-        // password validation and a loop to enter again
+ 
+        // Check if email already exists
+        boolean exists = false;
+        for (User u : users) {
+            if (u.email.equalsIgnoreCase(email)) {
+                exists = true;
+                break;
+            }
+        }
+            if (exists) {
+                System.out.println("Email already registered! Enter another one.");
+            } else {
+                break;
+            }
+        }
+
+        // ic format validation and a loop to enter again
+        String ic;
+        while (true) {
+            System.out.print("Enter Identity Card (e.g. XXXXXX-XX-XXXX): ");
+            ic = sc.nextLine().trim();
+            if (ic.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
+                break;
+            } else {
+                System.out.println("Invalid IC format! Try again.");
+            }
+        }
+        
+        // phone validation, 10-11digit start with 01, loop to enter again
+        String phoneNo;
+        while (true) {
+            System.out.print("Enter Phone No(e.g. 0123456789): ");
+            phoneNo = sc.nextLine().trim();
+            if (phoneNo.matches("^01\\d{8,9}$")) {
+                break;
+            } else {
+                System.out.println("Invalid phone number! Try again.");
+            }
+        }
+        
+        // validation only F & M , loop to enter agian
+        char gender;
+        while(true){
+            System.out.print("Enter Gender (M/F): ");
+            String g = sc.nextLine().trim().toUpperCase();
+            if (g.equals("M") || g.equals("F")) {
+                gender = g.charAt(0);
+                break;
+            } else {
+                System.out.println("Invalid gender! Try again.");
+            }
+        }
+        
+        // password validation(at least 6 characters, must include digit) and a loop to enter again
+        String password;
+        while (true) {
+            System.out.print("Enter Password(At least 6 characters and contain digit): ");
+            password = sc.nextLine().trim();
+            if (password.length() >= 6 && password.matches(".*\\d.*")) {
+                break;
+            } else {
+                System.out.println("Invalid password! Try again.");
+            }
+        }
         
         users.add(new Customer(name, email, ic, phoneNo, gender, password));
         System.out.println("\nRegistration Successful! You can login now.");
@@ -196,7 +245,7 @@ public class Main {
             System.out.println("[3] View Rental History");
             System.out.println("[4] Reward");
             System.out.println("[5] Edit Profile");
-            System.out.println("[0] LogOut");
+            System.out.println("[6] LogOut");
             
             // Input validation loop
             boolean isNumber;
@@ -237,15 +286,15 @@ public class Main {
                     // reward()
                     break;
                 case 5:
-                    // edit profile()
+                    editProfile(customer, sc, new ArrayList<>(users));
                     break;
-                case 0: 
+                case 6: 
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid input. Please try agian.");
             }
-        }while(choice2 != 0);
+        }while(choice2 != 6);
         
     }
 
@@ -446,5 +495,164 @@ public class Main {
     private static void returnBicycle(Customer customer) {
        
     }
+    
+    public static void editProfile(Customer customer, Scanner sc, ArrayList<User> users) {
+        String input4;
+        int choice4;
+        do{
+        System.out.println("\n=== Edit Profile Menu ===");
+        System.out.println("1. Edit Name");
+        System.out.println("2. Edit IC Number");
+        System.out.println("3. Edit Email");
+        System.out.println("4. Edit Phone Number");
+        System.out.println("5. Edit Gender");
+        System.out.println("6. Edit Password");
+        System.out.println("7. Exit");
+       
+        // Input validation loop
+        boolean isNumber;
+            do{
+               System.out.print("\nEnter Your Choice: ");
+               input4 = sc.nextLine().trim();
+                
+               isNumber = true;
+               if(input4.isEmpty()){
+                   isNumber = false;
+               }else{
+                    for (int i = 0; i < input4.length(); i++){
+                        if(!Character.isDigit(input4.charAt(i))){
+                            isNumber = false;
+                            break;
+                        }
+                    }
+               }
+                if(isNumber == false){
+                    System.out.println("Invalid input. Please enter again.");
+                }
+            }while(isNumber == false);
+            
+            choice4 = Integer.parseInt(input4);
 
+        switch (choice4) {
+            case 1: // Name
+                while (true) {
+                    System.out.print("Enter new name (Only letters and spaces allowed, min 4 characters): ");
+                    String newName = sc.nextLine().trim();
+                    if (newName.matches("^[A-Za-z ]+$")) {
+                        customer.setName(newName);
+                        System.out.println("Name updated successfully!");
+                        break;
+                    } else {
+                        System.out.println("Invalid name! Try Again!");
+                    }
+                }
+                break;
+
+            case 2: // IC Number
+                while (true) {
+                    System.out.print("Enter new IC (e.g. XXXXXX-XX-XXXX): ");
+                    String newIC = sc.nextLine().trim();
+                    if (newIC.matches("\\d{12}")) {
+                        customer.setIC(newIC);
+                        System.out.println("IC updated successfully!");
+                        break;
+                    } else {
+                        System.out.println("Invalid IC! Try Again!");
+                    }
+                }
+                break;
+
+            case 3: // Email
+                while (true) {
+                    System.out.print("Enter new email: ");
+                    String newEmail = sc.nextLine().trim();
+                    if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) { 
+                        System.out.println("Invalid email format!");
+                        continue;
+                    }
+                    boolean exists = false;
+                    for (User u : users) {
+                        if (u != customer && u.email.equalsIgnoreCase(newEmail)) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (exists) {
+                        System.out.println("Email already in use! Try another.");
+                    } else {
+                        customer.setEmail(newEmail);
+                        System.out.println("Email updated successfully!");
+                        break;
+                    }
+                }
+                break;
+
+            case 4: // PhoneNo
+                while (true) {
+                    System.out.print("Enter new phone number (e.g. 0123456789): ");
+                    String newPhoneNo = sc.nextLine().trim();
+                    if (newPhoneNo.matches("0\\d{9,10}")) {
+                        customer.setPhoneNo(newPhoneNo);
+                        System.out.println("Phone updated successfully!");
+                        break;
+                    } else {
+                        System.out.println("Invalid phone! Try Again!");
+                    }
+                }
+                break;
+
+            case 5: // Gender
+                while (true) {
+                    System.out.print("Enter gender (M/F): ");
+                    String newGender = sc.nextLine().trim().toUpperCase();
+                    if (newGender.equals("M") || newGender.equals("F")) {
+                        customer.setGender(newGender.charAt(0));
+                        System.out.println("Gender updated successfully!");
+                        break;
+                    } else {
+                        System.out.println("Invalid! Enter M or F.");
+                    }
+                }
+                break;
+
+            case 6: // Password
+                while (true) {
+                    System.out.print("Enter current password: ");
+                    String current = sc.nextLine();
+                    if (!current.equals(customer.getPassword())) {
+                        System.out.println("Wrong current password!");
+                    } else {
+                        break;
+                    }
+                }
+                while (true) {
+                    System.out.print("Enter new password (At least 6 characters and contain digit): ");
+                    String newPass = sc.nextLine();
+                    if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
+                        System.out.println("Invalid password format!");
+                        continue;
+                    }
+                    System.out.print("Confirm new password: ");
+                    String confirm = sc.nextLine();
+                    if (!confirm.equals(newPass)) {
+                        System.out.println("Passwords do not match! Try again!");
+                    } else {
+                        customer.setPassword(confirm);
+                        System.out.println("Password updated successfully!");
+                        break;
+                    }
+                }
+                
+                break;
+
+            case 7:
+                System.out.println("Exiting profile edit...");
+                return; // exit method
+
+            default:
+                System.out.println("Invalid choice! Please Try Again!");
+        
+        }
+    }while(choice4 != 7);
+  }
 }
