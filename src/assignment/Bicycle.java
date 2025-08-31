@@ -97,5 +97,5 @@ public class Bicycle {
         this.underMaintenance = underMaintenance;
     }
     
-    
 }
+
