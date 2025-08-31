@@ -13,9 +13,9 @@ public class Main {
     private static List<User> users = new ArrayList<>();
     private static List<Bicycle> bicycles = new ArrayList<>();
     private static List<Rental> rentals = new ArrayList<>();
+    private static List<Voucher> vouchers = new ArrayList<>();
     
-    private static int nextBikeNum = 4;
-    private static int nextRentalNum = 1;
+    private static int nextBikeNum = 26;
     
     public static void main(String[] args){
         // Default admin account
@@ -23,31 +23,37 @@ public class Main {
         users.add(admin);
         
         // Initial bicycles
-        bicycles.add(new Bicycle("B001","Folding Bike", "Brompton", "C Line Explore", "Black", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B002","Folding Bike", "Dahon", "Mariner D8", "Sliver", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B003","Folding Bike", "Tern", "Link D8", "Blue", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B004","Folding Bike", "Giant", "Expressway 2 City", "Grey", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B005","Folding Bike", "Montague", "UrbanLite", "Red", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B006","Mountain Bike", "Trek", "Marlin 7", "Grey", 3.0, 25.0, 3, false));
-        bicycles.add(new Bicycle("B007","Mountain Bike", "Giant", "Talon 1", "Green", 3.0, 25.0, 3, false));
-        bicycles.add(new Bicycle("B008","Mountain Bike", "Specialized", "Rockhopper Sport", "Blue", 3.0, 25.0, 3, false));
-        bicycles.add(new Bicycle("B009","Mountain Bike", "Scott", "Aspect 940", "Grey", 3.0, 25.0, 3, false));
-        bicycles.add(new Bicycle("B010","Mountain Bike", "Cannondale", "Trail 5", "Red", 3.0, 25.0, 3, false));
-        bicycles.add(new Bicycle("B011","Road Bike", "Giant", "Contend AR 3", "Blue", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B012","Road Bike", "Specialized", "Allez", "White", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B013","Road Bike", "Trek", "Domane AL 2", "Purple", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B014","Road Bike", "Cannondale", "Aynapse Alloy 105", "Black", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B015","Road Bike", "Scott", "Speedster 10", "Red", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B016","Tandem Bike", "Cannondale", "Tandem 29", "Sliver", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B017","Tandem Bike", "Co-Motion", "Periscope", "Blue", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B018","Tandem Bike", "Giant", "Half-Wit Tandem", "White", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B019","Tandem Bike", "Burley", "Duet", "Yellow", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B020","Tandem Bike", "Schwinn", "Twinn Classic", "Green", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B021","Electric Bike", "Specialized", "Turbo Vado SL 4.0", "Black", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B022","Electric Bike", "Giant", "Quick E+", "Grey", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B023","Electric Bike", "Trek", "Verve+ 2", "Green", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B024","Electric Bike", "Rad Power", "RadCity 5 Plus", "White", 7.0, 35.0, 2, false));
-        bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 2, false));
+        bicycles.add(new Bicycle("B001","Folding Bike", "Brompton", "C Line Explore", "Black", 5.0, 30.0, 5));
+        bicycles.add(new Bicycle("B002","Folding Bike", "Dahon", "Mariner D8", "Sliver", 4.0, 25.0, 5));
+        bicycles.add(new Bicycle("B003","Folding Bike", "Tern", "Link D8", "Blue", 4.0, 20.0, 5));
+        bicycles.add(new Bicycle("B004","Folding Bike", "Giant", "Expressway 2 City", "Grey", 3.0, 15.0, 5));
+        bicycles.add(new Bicycle("B005","Folding Bike", "Montague", "UrbanLite", "Red", 3.0, 15.0, 5));
+        bicycles.add(new Bicycle("B006","Mountain Bike", "Trek", "Marlin 7", "Grey", 5.0, 40.0, 4));
+        bicycles.add(new Bicycle("B007","Mountain Bike", "Giant", "Talon 1", "Green", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B008","Mountain Bike", "Specialized", "Rockhopper Sport", "Blue", 5.0, 35.0, 4));
+        bicycles.add(new Bicycle("B009","Mountain Bike", "Scott", "Aspect 940", "Grey", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B010","Mountain Bike", "Cannondale", "Trail 5", "Red", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B011","Road Bike", "Giant", "Contend AR 3", "Blue", 5.0, 40.0, 6));
+        bicycles.add(new Bicycle("B012","Road Bike", "Specialized", "Allez", "White", 6.0, 50.0, 6));
+        bicycles.add(new Bicycle("B013","Road Bike", "Trek", "Domane AL 2", "Purple", 3.0, 20.0, 6));
+        bicycles.add(new Bicycle("B014","Road Bike", "Cannondale", "Aynapse Alloy 105", "Black", 7.0, 55.0, 6));
+        bicycles.add(new Bicycle("B015","Road Bike", "Scott", "Speedster 10", "Red", 4.0, 30.0, 6));
+        bicycles.add(new Bicycle("B016","Tandem Bike", "Cannondale", "Tandem 29", "Sliver", 10.0, 80.0, 2));
+        bicycles.add(new Bicycle("B017","Tandem Bike", "Co-Motion", "Periscope", "Blue", 9.0, 75.0, 2));
+        bicycles.add(new Bicycle("B018","Tandem Bike", "Giant", "Half-Wit Tandem", "White", 8.0, 70.0, 2));
+        bicycles.add(new Bicycle("B019","Tandem Bike", "Burley", "Duet", "Yellow", 7.0, 60.0, 2));
+        bicycles.add(new Bicycle("B020","Tandem Bike", "Schwinn", "Twinn Classic", "Green", 7.0, 55.0, 2));
+        bicycles.add(new Bicycle("B021","Electric Bike", "Specialized", "Turbo Vado SL 4.0", "Black", 15.0, 50.0, 3));
+        bicycles.add(new Bicycle("B022","Electric Bike", "Giant", "Quick E+", "Grey", 12.0, 45.0, 3));
+        bicycles.add(new Bicycle("B023","Electric Bike", "Trek", "Verve+ 2", "Green", 12.0, 45.0, 3));
+        bicycles.add(new Bicycle("B024","Electric Bike", "Rad Power", "RadCity 5 Plus", "White", 10.0, 40.0, 3));
+        bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 3));
+        
+        // Initial voucher
+        vouchers.add(new Voucher("VCH5OFF", "RM5 OFF", 20, 5.0));
+        vouchers.add(new Voucher("VCH10OFF", "RM10 OFF", 30, 10.0));
+        vouchers.add(new Voucher("VCH20OFF", "RM20 OFF", 50, 20.0));
+        vouchers.add(new Voucher("VCH25OFF", "RM25 OFF", 65, 25.0));
         
         int choice;
         String input;
@@ -61,10 +67,9 @@ public class Main {
             System.out.println("======================================================================");
             System.out.println("                 WELCOME TO GOCYCLE BICYCLE RENTAL!!");
             System.out.println("======================================================================");
-            System.out.println("1. Admin Login");
-            System.out.println("2. Customer Login");
-            System.out.println("3. Customer Register");
-            System.out.println("4. Exit");
+            System.out.println("1. Customer Login");
+            System.out.println("2. Customer Register");
+            System.out.println("3. Exit");
             
             // Input validation loop
             boolean isNumber;
@@ -96,12 +101,9 @@ public class Main {
                     loginUser();
                     break;
                 case 2:
-                    loginUser();
-                    break;
-                case 3:
                     register();
                     break;
-                case 4:
+                case 3:
                     System.out.println("Thank you for using GOCYCLE Rental System!");
                     break;
                 default:
@@ -112,33 +114,63 @@ public class Main {
     }
 
     private static void loginUser() {
+        
         System.out.println("Login");
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine();
-        System.out.print("Enter Password: ");
-        String password = sc.nextLine();
+        String email;
+        String password;
+        boolean loggedIn = false;
         
-        boolean found = false;
-        
-        for(User u : users){
-            if(u.login(email, password)){
-                found = true;
-                if(u.getRole().equals("customer")){
-                    System.out.println("\nLogin Successful!");
-                    customerMenu((Customer)u);
-                }else if(u.getRole().equals("admin")){
-                    System.out.println("\nLogin Successful as Admin!");
-                    adminMenu((Admin)u);
-                }
+        while (!loggedIn) {
+        // Email validation loop
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = sc.nextLine().trim();
+            if (email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) {
+                break;  //valid email
+            } else{
+                System.out.println("Invalid email format! Try again.\n");
+            }
+        }
+
+        // Password validation loop
+        while (true) {
+            System.out.print("Enter Password (at least 6 characters, must include a digit): ");
+            password = sc.nextLine().trim();
+
+            if (password.length() >= 6 && password.matches(".*\\d.*")) {
+                break; // valid password
+            } else {
+                System.out.println("Invalid password! Try again.\n");
+            }
+        }
+
+        // Check credentials against users list
+        User matchedUser = null;
+        for (User u : users) {
+            if (u.login(email, password)) {  
+                matchedUser = u;
                 break;
             }
         }
-        
-        if(found == false)
-            System.out.println("Login Failed. Invalid email or password.");
+
+        if (matchedUser != null) {
+            loggedIn = true;
+            if (matchedUser.getRole().equals("customer")) {
+                System.out.println("\nLogin Successful!");
+                customerMenu((Customer) matchedUser);
+            } else if (matchedUser.getRole().equals("admin")) {
+                System.out.println("\nLogin Successful as Admin!");
+                adminMenu((Admin) matchedUser);
+            }
+        } else {
+            System.out.println("Login Failed. Invalid email or password.\n");
+        }
     }
+}
 
     private static void register() {
+        System.out.println("Customer Registration");
+        
         // name validation, only character and must > 4, loop to enter again
         String name;
         while (true) {
@@ -147,7 +179,7 @@ public class Main {
             if (name.matches("^[A-Za-z ]{4,}$")) {
                 break;
             } else {
-                System.out.println("Invalid name! Try again.");
+                System.out.println("Invalid name! Try again.\n");
             }
         }
         
@@ -157,12 +189,11 @@ public class Main {
             System.out.print("Enter Email: ");
             email = sc.nextLine().trim();
 
-            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                System.out.println("Invalid email format! Try again.");
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) {
+                System.out.println("Invalid email format! Try again.\n");
                 continue;
             }
-        
- 
+            
         // Check if email already exists
         boolean exists = false;
         for (User u : users) {
@@ -172,12 +203,12 @@ public class Main {
             }
         }
             if (exists) {
-                System.out.println("Email already registered! Enter another one.");
+                System.out.println("Email already registered! Enter another one.\n");
             } else {
                 break;
             }
         }
-
+        
         // ic format validation and a loop to enter again
         String ic;
         while (true) {
@@ -186,7 +217,7 @@ public class Main {
             if (ic.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
                 break;
             } else {
-                System.out.println("Invalid IC format! Try again.");
+                System.out.println("Invalid IC format! Try again.\n");
             }
         }
         
@@ -198,7 +229,7 @@ public class Main {
             if (phoneNo.matches("^01\\d{8,9}$")) {
                 break;
             } else {
-                System.out.println("Invalid phone number! Try again.");
+                System.out.println("Invalid phone number! Try again.\n");
             }
         }
         
@@ -211,7 +242,7 @@ public class Main {
                 gender = g.charAt(0);
                 break;
             } else {
-                System.out.println("Invalid gender! Try again.");
+                System.out.println("Invalid gender! Try again.\n");
             }
         }
         
@@ -223,11 +254,15 @@ public class Main {
             if (password.length() >= 6 && password.matches(".*\\d.*")) {
                 break;
             } else {
-                System.out.println("Invalid password! Try again.");
+                System.out.println("Invalid password! Try again.\n");
             }
         }
         
-        users.add(new Customer(name, email, ic, phoneNo, gender, password));
+        Customer customer = new Customer(name, email, ic, phoneNo, gender, password);
+        users.add(customer);
+        customer.getActiveVouchers().add(new Voucher("VCH5OFF", "RM5 OFF", 20, 5.0));
+        customer.getActiveVouchers().add(new Voucher("VCH10OFF", "RM10 OFF", 30, 10.0));
+        customer.getActiveVouchers().add(new Voucher("VCH20OFF", "RM20 OFF", 50, 20.0));
         System.out.println("\nRegistration Successful! You can login now.");
         System.out.println("Returning to Login Page...");
     }
@@ -238,7 +273,7 @@ public class Main {
         int choice2;
         do{
             System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            System.out.println("    GOCYCLE Bicycle Rental");
+            System.out.println("       GOCYCLE Bicycle Rental");
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("[1] Rent A Bicycle");
             System.out.println("[2] Return Bicycle");
@@ -280,7 +315,7 @@ public class Main {
                     returnBicycle(customer);
                     break;
                 case 3: 
-                    // view rental history()
+                    //rentalHistory(customer);
                     break;
                 case 4: 
                     // reward()
@@ -343,7 +378,7 @@ public class Main {
                     break;
                 case 0:
                     System.out.println("Logging out...");
-                    break;
+                    break; 
                 default:
                     System.out.println("Invalid input. Please try again.");
             }
@@ -361,7 +396,7 @@ public class Main {
         System.out.println("-------------------------------------------------------------------------------------------------");
         
         for(Bicycle b : bicycles){
-            if (b.getQuantity() > 0 && !b.isUnderMaintenance()){
+            if (b.getQuantity() > 0){
                 if(!available.contains(b.getType())){
                     available.add(b.getType());
                 }
@@ -381,7 +416,7 @@ public class Main {
                 System.out.println("-------------------------------------------------------------------------------------------------");
                 
                 for (Bicycle b : bicycles){
-                    if (b.getType().equals(type) && b.getQuantity() > 0 && !b.isUnderMaintenance()){
+                    if (b.getType().equals(type) && b.getQuantity() > 0){
                         System.out.printf("|%-6s | %-12s | %-20s | %-10s | %-12.2f | %-12.2f | %-4d | %n",
                                 b.getBicycleID(), b.getBrand(), b.getModel(),b.getColor(), 
                                 b.getRatePerHour(), b.getRatePerDay(), b.getQuantity());
@@ -399,7 +434,7 @@ public class Main {
             selectedBicycle = null; 
             
             for(Bicycle b : bicycles){
-                if(b.getBicycleID().equals(BicycleID) && b.getQuantity() > 0 && !b.isUnderMaintenance()){
+                if(b.getBicycleID().equals(BicycleID) && b.getQuantity() > 0){
                     selectedBicycle = b;
                     break;
                 }
@@ -410,7 +445,7 @@ public class Main {
         }while(selectedBicycle == null);
         
         String rt;
-        String rentalType;
+        String rentalType = "";
         do{
             System.out.println("\nSelect Rental Mode: [1]Hourly     [2]Daily");
             System.out.print("Enter [1] or [2]: ");
@@ -437,7 +472,7 @@ public class Main {
             
             if(choiceST.equals("1")){
                 startTime = LocalDateTime.now();
-                System.out.println("\nSTART TIME: " + startTime.format(formatter));
+                System.out.println("START TIME: " + startTime.format(formatter));
             }else if(choiceST.equals("2")){
                 LocalDate date = null;
                 LocalTime time = null;
@@ -447,8 +482,14 @@ public class Main {
                         System.out.print("Enter Start Date(YYYY-MM-DD): ");
                         String d = sc.nextLine().trim();
                         date = LocalDate.parse(d); 
+                        
+                        if(date.isBefore(LocalDate.now())){
+                            System.out.println("Date cannot be in the past. Please try again.\n");
+                            date = null;
+                        }
+                        
                     }catch (Exception e){
-                        System.out.println("Invalid date format. Please try again.");
+                        System.out.println("Invalid date format. Please try again.\n");
                     }
                 }
                 
@@ -457,8 +498,13 @@ public class Main {
                         System.out.print("Enter Start Time (HH:MM in 24hour format): ");
                         String t = sc.nextLine().trim();
                         time = LocalTime.parse(t);
+                        
+                        if(date.equals(LocalDate.now()) && time.isBefore(LocalTime.now())){
+                            System.out.println("Time cannot be in the past for today. Please try again.\n");
+                            time = null;
+                        }
                     }catch(Exception e){
-                        System.out.println("Invalid time format. Please try again");
+                        System.out.println("Invalid time format. Please try again\n");
                     }
                 }
                 
@@ -473,29 +519,297 @@ public class Main {
         
         System.out.println("\nRM30.00 deposit is required.");
         
-        char confirm;
+        String confirm = "";
         do{
-            System.out.print("Confirm Rental and pay deposit? (Y/N): ");
-            String c = sc.nextLine();
+            System.out.print("\nConfirm Rental and pay deposit? (Y/N): ");
+            confirm = sc.nextLine().trim().toUpperCase();
             
-            if(c.length() == 1){
-                confirm = c.charAt(0);
-            }else{
-                confirm = 'X';
-            }
-            
-            if(confirm == 'N'){
+            if(confirm.equals("Y")){
+                System.out.println("Process to payment...");
+            }else if(confirm.equals("N")){
                 System.out.println("\nBooking cancel. Return to Menu...");
-                break;
+                return;
+            }else{
+                System.out.println("Invalid input. Please enter Y or N.");
             }
-        }while(confirm != 'Y' && confirm != 'N');   
+            
+        }while(!confirm.equals("Y") && !confirm.equals("N"));
+        
+        boolean paid = payment(30.00, "Rental Deposit");
+        if(!paid){
+            System.out.println("Deposit payment failed. Booking cancelled.");
+            return;
+        }
+        
+        Rental r = new Rental(rentalType, startTime, customer, selectedBicycle);
+        rentals.add(r);
+        
+        // Reduce quantity of selected bicycle
+        selectedBicycle.setQuantity(selectedBicycle.getQuantity() - 1);
+        
+        // Rental Confirmation
+        System.out.println("--------------------------------------------------");
+        System.out.println("                Rental Confirmation");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Customer Name: " + customer.getName());
+        System.out.println(r);
+        System.out.println("Deposot Paid : RM30.00 (PAID)");
+        System.out.println("-------------------------------------------------");
+        System.out.println("Remember to return the bicycle to get final payment.");
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO MAIN MENU~");
+        sc.nextLine();
+    }
+    
+    private static void returnBicycle(Customer customer) {
+        List<Rental> activeRentals = new ArrayList<>();
+        for(Rental r: rentals){
+           if(r.isActive() && r.getCustomer().equals(customer)){
+               activeRentals.add(r);
+           }
+        }
+        
+        if(activeRentals.isEmpty()){
+            System.out.println("You have no any rentals to return.");
+            System.out.print("\n~PRESS [ENTER] TO RETURN TO MAIN MENU~");
+            sc.nextLine();
+            return;
+        }
+        
+        System.out.println("You have the following active rentals: ");
+       
+        int i = 1;
+        for(Rental r: activeRentals){
+            String rentalStr = r.toString();
+            String[] lines = rentalStr.split("\n");
+            System.out.println(i + ". " + lines[0]);
+            for(int j = 1; j < lines.length; j++){
+                System.out.println("   " + lines[j]);
+            }
+            System.out.println("   Deposit      : RM30.00\n");
+            i++;
+        }
+        
+        System.out.println("Select the rental bicycle you want to return...");
+        
+        Rental selected = null;
+        do{
+            System.out.print("Enter Rental ID: ");
+            String id = sc.nextLine().trim().toUpperCase();
+            for(Rental r : activeRentals){
+                if(r.getRentalID().equals(id)){
+                    selected = r;
+                    break;
+                }
+            }
+            if(selected == null){
+                System.out.println("Invalid Rental ID. Please try again.\n");
+            }
+        }while(selected == null);
+        
+        String d;
+        boolean hasDamage = false;
+        do{
+            System.out.print("Is the bicycle damaged? (Y/N): ");
+            d = sc.nextLine().trim().toUpperCase();
+            if(d.equals("Y")){
+                hasDamage = true;
+            }else if(d.equals("N")){
+                hasDamage = false;
+            }else{
+                System.out.println("Invalid input. Please enter Y or N.\n");
+            }
+        }while(!d.equals("Y") && !d.equals("N"));
+        
+        String confirm;
+        do{
+            System.out.print("Confirm return and make payment? (Y/N): ");
+            confirm = sc.nextLine().trim().toUpperCase();
+            if(confirm.equals("Y")){
+                System.out.println("\nReturning Bicycle...");
+            }else if(confirm.equals("N")){
+                System.out.println("Return cancelled. Returning to the main menu.\n");
+                return;
+            }else{
+                System.out.println("Invalid input. Please enter Y or N.\n");
+            }
+        }while(!confirm.equals("Y") && !confirm.equals("N"));
+        
+        LocalDateTime returnTime = LocalDateTime.now();
+        Return rt = new Return(selected,returnTime,hasDamage);
+        
+        //Show summary
+        System.out.println("---------------RETURN---------------");
+        System.out.println(selected.toString());
+        System.out.println("Return Time  : " + returnTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        System.out.println("Duration     : " + rt.getDuration());
+        System.out.println("-------------------------------------");
+        System.out.printf("Total Price       : RM%.2f%n", rt.getTotalPrice());
+        System.out.printf("Damage Fee(if any): RM%.2f%n", rt.getDamageFee());
+        System.out.printf("Service Fee(6%%)   : RM%.2f%n", rt.getServiceFee());
+        
+        // voucher
+        double discount = 0.0;
+        String use = "";
+        double totalAmount = rt.getTotalPrice()  + rt.getDamageFee() + rt.getServiceFee();
+        if(totalAmount > 30.00){
+            do{
+                if(!customer.getActiveVouchers().isEmpty()){
+                    System.out.print("Use a voucher? (Y/N): ");
+                    use = sc.nextLine().trim().toUpperCase();
+                    if(use.equals("Y")){
+                        System.out.println("\nYour Active Vouchers:");
+                        for (Voucher v : customer.getActiveVouchers()) {
+                            if(!v.isUsed())
+                                System.out.printf("- %s (RM%.2f OFF)\n", v.getCode(), v.getDiscountAmount());
+                        }
+                        System.out.print("Enter voucher code: ");
+                        String code = sc.nextLine().trim().toUpperCase();
+                        Voucher v = customer.findActiveVoucher(code);
+                        if (v != null) {
+                            discount = v.getDiscountAmount();
+                            rt.setDiscount(discount);
+                            v.setUsed(true); 
+                            System.out.println("Voucher applied!\n");
+                        } else {
+                            System.out.println("Voucher not found in your active vouchers. No discount applied.\n");
+                        }
+                    }else if(use.equals("N")){
+                        System.out.println("Not discount applied.");
+                    }else{
+                        System.out.println("Invalid input. PLease enter Y or N.");
+                    }
+                }else{
+                    break;
+                }
+            }while(!use.equals("Y") && !use.equals("N"));
+            System.out.printf("Discount          : RM%.2f%n", discount);
+        }
+        
+        System.out.printf("Total Amount      : RM%.2f%n", totalAmount);
+        System.out.println("Deposit Paid      : RM30.00");
+        System.out.println("-------------------------------------");
+        if(rt.getFinalAmount() < 0){
+            System.out.printf("Refund            : RM%.2f%n", Math.abs(rt.getFinalAmount()));
+        }else{
+            System.out.printf("Total Paid        : RM%.2f%n", rt.getFinalAmount());
+        }
+        System.out.println("-------------------------------------");
+        
+        // payment
+        if(rt.getFinalAmount() > 0){
+            boolean paid = payment(rt.getFinalAmount(), "Final Rental Fees");
+            if(!paid){
+                System.out.println("Payment failed. Return aborted.");
+                return;
+            }else{
+                System.out.println("Payment Successful!");
+            }
+        }else if(rt.getFinalAmount() == 0){
+            System.out.println("No additional payment required. Deposit covers all.");
+        }else{
+            double addFees = 30 - totalAmount;
+            System.out.printf("\nAdditional RM%.2f is returned back to your TNG%n", addFees);
+        } 
+        
+        selected.getBicycle().setDamaged(hasDamage);
+        selected.setActive(false);
+        int points = (int) Math.floor(rt.getFinalAmount() / 10);
+        if(points < 0){
+            points = 0;
+        }else{
+            customer.setRewardPoints(points);
+        }
+        
+        // Generate Receipt
+        System.out.println("---------------------------------------------");
+        System.out.println("                  RECEIPT   ");
+        System.out.println("---------------------------------------------");
+        System.out.println("Rental ID  : " + selected.getRentalID());
+        System.out.println("Bicycle    : " + selected.getBicycle().getType() + " " + selected.getBicycle().getBrand() +
+                " " + selected.getBicycle().getModel() + " " + selected.getBicycle().getColor());
+        System.out.println("Duration   : " + rt.getDuration() + " hours");
+        if(rt.getFinalAmount() < 0){
+            System.out.printf("Refund     : RM%.2f%n", Math.abs(rt.getFinalAmount()));
+        }else{
+            System.out.printf("Total Paid : RM%.2f%n", rt.getFinalAmount());
+        }
+        System.out.println("Earned Reward Points: " + points + " pts");
+        
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO MAIN MENU~");
+        sc.nextLine();
+}
+
+    private static boolean payment(double amount, String purpose) {
+        System.out.println("\nPAYMENT FOR: " + purpose);
+        System.out.printf("Amount to pay: RM%.2f%n", amount);
+        System.out.println("\n------------------------------------");
+        System.out.println("           Payment Method");
+        System.out.println("------------------------------------");
+        System.out.println("[1] Card");
+        System.out.println("[2] Touch N Go");
+        
+        while(true){
+            System.out.print("Select payment method: ");
+            String input = sc.nextLine().trim();
+            try{
+                int choice = Integer.parseInt(input);
+                
+                if(choice == 1){
+                    System.out.println("\nYou selected Card Payment.");
+                    String cardNum;
+                    do{
+                        System.out.print("Enter Card Number: ");
+                        cardNum = sc.nextLine().trim();
+                        if(!cardNum.matches("\\d{16}")){
+                            System.out.println("Invalid card number. Please try again.\n");
+                        }
+                    }while(!cardNum.matches("\\d{16}"));
+                    
+                    String cvv;
+                    do{
+                        System.out.print("Enter CVV Code: ");
+                        cvv = sc.nextLine().trim(); 
+                        if(!cvv.matches("\\d{3}")){
+                            System.out.println("Invalid CVV. Please try again.\n");
+                        }
+                    }while(!cvv.matches("\\d{3}"));
+                    
+                    System.out.println("Card Payment Successful!\n");
+                    return true;
+                    
+                }else if(choice == 2){
+                    System.out.println("\nYou selected Touch N Go Payment.");
+                    String phone;
+                    do{
+                        System.out.print("Enter Phone No: ");
+                        phone = sc.nextLine().trim();
+                        if(!phone.matches("01\\d{8,9}")){
+                            System.out.println("Invalid phone number. Please try again.\n");
+                        }
+                    }while(!phone.matches("01\\d{8,9}"));
+                    
+                    String pin;
+                    do{
+                        System.out.print("Enter PIN number: ");
+                        pin = sc.nextLine().trim();
+                        if(!pin.matches("\\d{6}")){
+                            System.out.println("Invalid PIN number. Please try again.\n");
+                        }
+                    }while(!pin.matches("\\d{6}"));
+                    
+                    System.out.println("Touch N Go payment successful!\n");
+                    return true;
+                    
+                }else{
+                    System.out.println("Invalid choice. Please enter 1 or 2.\n");
+                }
+            }catch (Exception e){
+                System.out.println("Invalid input. Please enter a number.\n");
+            }
+        }
         
     }
 
-    private static void returnBicycle(Customer customer) {
-       
-    }
-    
     public static void editProfile(Customer customer, Scanner sc, ArrayList<User> users) {
         String input4;
         int choice4;
@@ -566,7 +880,7 @@ public class Main {
                 while (true) {
                     System.out.print("Enter new email: ");
                     String newEmail = sc.nextLine().trim();
-                    if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) { 
+                    if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) { 
                         System.out.println("Invalid email format!");
                         continue;
                     }
@@ -655,4 +969,5 @@ public class Main {
         }
     }while(choice4 != 7);
   }
+
 }
