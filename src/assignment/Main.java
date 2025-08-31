@@ -23,31 +23,32 @@ public class Main {
         users.add(admin);
         
         // Initial bicycles
-        bicycles.add(new Bicycle("B001","Folding Bike", "Brompton", "C Line Explore", "Black", 5.0, 30.0, 5, false));
-        bicycles.add(new Bicycle("B002","Folding Bike", "Dahon", "Mariner D8", "Sliver", 4.0, 25.0, 5, false));
-        bicycles.add(new Bicycle("B003","Folding Bike", "Tern", "Link D8", "Blue", 4.0, 20.0, 5, false));
-        bicycles.add(new Bicycle("B004","Folding Bike", "Giant", "Expressway 2 City", "Grey", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B005","Folding Bike", "Montague", "UrbanLite", "Red", 3.0, 15.0, 5, false));
-        bicycles.add(new Bicycle("B006","Mountain Bike", "Trek", "Marlin 7", "Grey", 5.0, 40.0, 4, false));
-        bicycles.add(new Bicycle("B007","Mountain Bike", "Giant", "Talon 1", "Green", 4.0, 30.0, 4, false));
-        bicycles.add(new Bicycle("B008","Mountain Bike", "Specialized", "Rockhopper Sport", "Blue", 5.0, 35.0, 4, false));
-        bicycles.add(new Bicycle("B009","Mountain Bike", "Scott", "Aspect 940", "Grey", 4.0, 30.0, 4, false));
-        bicycles.add(new Bicycle("B010","Mountain Bike", "Cannondale", "Trail 5", "Red", 4.0, 30.0, 4, false));
-        bicycles.add(new Bicycle("B011","Road Bike", "Giant", "Contend AR 3", "Blue", 5.0, 40.0, 6, false));
-        bicycles.add(new Bicycle("B012","Road Bike", "Specialized", "Allez", "White", 6.0, 50.0, 6, false));
-        bicycles.add(new Bicycle("B013","Road Bike", "Trek", "Domane AL 2", "Purple", 3.0, 20.0, 6, false));
-        bicycles.add(new Bicycle("B014","Road Bike", "Cannondale", "Aynapse Alloy 105", "Black", 7.0, 55.0, 6, false));
-        bicycles.add(new Bicycle("B015","Road Bike", "Scott", "Speedster 10", "Red", 4.0, 30.0, 6, false));
-        bicycles.add(new Bicycle("B016","Tandem Bike", "Cannondale", "Tandem 29", "Sliver", 10.0, 80.0, 2, false));
-        bicycles.add(new Bicycle("B017","Tandem Bike", "Co-Motion", "Periscope", "Blue", 9.0, 75.0, 2, false));
-        bicycles.add(new Bicycle("B018","Tandem Bike", "Giant", "Half-Wit Tandem", "White", 8.0, 70.0, 2, false));
-        bicycles.add(new Bicycle("B019","Tandem Bike", "Burley", "Duet", "Yellow", 7.0, 60.0, 2, false));
-        bicycles.add(new Bicycle("B020","Tandem Bike", "Schwinn", "Twinn Classic", "Green", 7.0, 55.0, 2, false));
-        bicycles.add(new Bicycle("B021","Electric Bike", "Specialized", "Turbo Vado SL 4.0", "Black", 15.0, 50.0, 3, false));
-        bicycles.add(new Bicycle("B022","Electric Bike", "Giant", "Quick E+", "Grey", 12.0, 45.0, 3, false));
-        bicycles.add(new Bicycle("B023","Electric Bike", "Trek", "Verve+ 2", "Green", 12.0, 45.0, 3, false));
-        bicycles.add(new Bicycle("B024","Electric Bike", "Rad Power", "RadCity 5 Plus", "White", 10.0, 40.0, 3, false));
-        bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 3, false));
+        bicycles.add(new Bicycle("B001","Folding Bike", "Brompton", "C Line Explore", "Black", 5.0, 30.0, 5));
+        bicycles.add(new Bicycle("B002","Folding Bike", "Dahon", "Mariner D8", "Sliver", 4.0, 25.0, 5));
+        bicycles.add(new Bicycle("B003","Folding Bike", "Tern", "Link D8", "Blue", 4.0, 20.0, 5));
+        bicycles.add(new Bicycle("B004","Folding Bike", "Giant", "Expressway 2 City", "Grey", 3.0, 15.0, 5));
+        bicycles.add(new Bicycle("B005","Folding Bike", "Montague", "UrbanLite", "Red", 3.0, 15.0, 5));
+        bicycles.add(new Bicycle("B006","Mountain Bike", "Trek", "Marlin 7", "Grey", 5.0, 40.0, 4));
+        bicycles.add(new Bicycle("B007","Mountain Bike", "Giant", "Talon 1", "Green", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B008","Mountain Bike", "Specialized", "Rockhopper Sport", "Blue", 5.0, 35.0, 4));
+        bicycles.add(new Bicycle("B009","Mountain Bike", "Scott", "Aspect 940", "Grey", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B010","Mountain Bike", "Cannondale", "Trail 5", "Red", 4.0, 30.0, 4));
+        bicycles.add(new Bicycle("B011","Road Bike", "Giant", "Contend AR 3", "Blue", 5.0, 40.0, 6));
+        bicycles.add(new Bicycle("B012","Road Bike", "Specialized", "Allez", "White", 6.0, 50.0, 6));
+        bicycles.add(new Bicycle("B013","Road Bike", "Trek", "Domane AL 2", "Purple", 3.0, 20.0, 6));
+        bicycles.add(new Bicycle("B014","Road Bike", "Cannondale", "Aynapse Alloy 105", "Black", 7.0, 55.0, 6));
+        bicycles.add(new Bicycle("B015","Road Bike", "Scott", "Speedster 10", "Red", 4.0, 30.0, 6));
+        bicycles.add(new Bicycle("B016","Tandem Bike", "Cannondale", "Tandem 29", "Sliver", 10.0, 80.0, 2));
+        bicycles.add(new Bicycle("B017","Tandem Bike", "Co-Motion", "Periscope", "Blue", 9.0, 75.0, 2));
+        bicycles.add(new Bicycle("B018","Tandem Bike", "Giant", "Half-Wit Tandem", "White", 8.0, 70.0, 2));
+        bicycles.add(new Bicycle("B019","Tandem Bike", "Burley", "Duet", "Yellow", 7.0, 60.0, 2));
+        bicycles.add(new Bicycle("B020","Tandem Bike", "Schwinn", "Twinn Classic", "Green", 7.0, 55.0, 2));
+        bicycles.add(new Bicycle("B021","Electric Bike", "Specialized", "Turbo Vado SL 4.0", "Black", 15.0, 50.0, 3));
+        bicycles.add(new Bicycle("B022","Electric Bike", "Giant", "Quick E+", "Grey", 12.0, 45.0, 3));
+        bicycles.add(new Bicycle("B023","Electric Bike", "Trek", "Verve+ 2", "Green", 12.0, 45.0, 3));
+        bicycles.add(new Bicycle("B024","Electric Bike", "Rad Power", "RadCity 5 Plus", "White", 10.0, 40.0, 3));
+        bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 3));
+
         
         // Initial voucher
         vouchers.add(new Voucher("VCH5OFF", "RM5 OFF", 20, 5.0));
@@ -128,7 +129,7 @@ public class Main {
             if (email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) {
                 break;  //valid email
             } else{
-                System.out.println("Invalid email format! Try again.");
+                System.out.println("Invalid email format! Try again.\n");
             }
         }
 
@@ -140,7 +141,7 @@ public class Main {
             if (password.length() >= 6 && password.matches(".*\\d.*")) {
                 break; // valid password
             } else {
-                System.out.println("Invalid password! Try again.");
+                System.out.println("Invalid password! Try again.\n");
             }
         }
 
@@ -179,7 +180,7 @@ public class Main {
             if (name.matches("^[A-Za-z ]{4,}$")) {
                 break;
             } else {
-                System.out.println("Invalid name! Try again.");
+                System.out.println("Invalid name! Try again.\n");
             }
         }
         
@@ -190,7 +191,7 @@ public class Main {
             email = sc.nextLine().trim();
 
             if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) {
-                System.out.println("Invalid email format! Try again.");
+                System.out.println("Invalid email format! Try again.\n");
                 continue;
             }
             
@@ -203,7 +204,7 @@ public class Main {
             }
         }
             if (exists) {
-                System.out.println("Email already registered! Enter another one.");
+                System.out.println("Email already registered! Enter another one.\n");
             } else {
                 break;
             }
@@ -217,7 +218,7 @@ public class Main {
             if (ic.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
                 break;
             } else {
-                System.out.println("Invalid IC format! Try again.");
+                System.out.println("Invalid IC format! Try again.\n");
             }
         }
         
@@ -229,7 +230,7 @@ public class Main {
             if (phoneNo.matches("^01\\d{8,9}$")) {
                 break;
             } else {
-                System.out.println("Invalid phone number! Try again.");
+                System.out.println("Invalid phone number! Try again.\n");
             }
         }
         
@@ -242,7 +243,7 @@ public class Main {
                 gender = g.charAt(0);
                 break;
             } else {
-                System.out.println("Invalid gender! Try again.");
+                System.out.println("Invalid gender! Try again.\n");
             }
         }
         
@@ -254,7 +255,7 @@ public class Main {
             if (password.length() >= 6 && password.matches(".*\\d.*")) {
                 break;
             } else {
-                System.out.println("Invalid password! Try again.");
+                System.out.println("Invalid password! Try again.\n");
             }
         }
         
@@ -396,7 +397,7 @@ public class Main {
         System.out.println("-------------------------------------------------------------------------------------------------");
         
         for(Bicycle b : bicycles){
-            if (b.getQuantity() > 0 && !b.isUnderMaintenance()){
+            if (b.getQuantity() > 0){
                 if(!available.contains(b.getType())){
                     available.add(b.getType());
                 }
@@ -416,7 +417,7 @@ public class Main {
                 System.out.println("-------------------------------------------------------------------------------------------------");
                 
                 for (Bicycle b : bicycles){
-                    if (b.getType().equals(type) && b.getQuantity() > 0 && !b.isUnderMaintenance()){
+                    if (b.getType().equals(type) && b.getQuantity() > 0){
                         System.out.printf("|%-6s | %-12s | %-20s | %-10s | %-12.2f | %-12.2f | %-4d | %n",
                                 b.getBicycleID(), b.getBrand(), b.getModel(),b.getColor(), 
                                 b.getRatePerHour(), b.getRatePerDay(), b.getQuantity());
@@ -434,7 +435,7 @@ public class Main {
             selectedBicycle = null; 
             
             for(Bicycle b : bicycles){
-                if(b.getBicycleID().equals(BicycleID) && b.getQuantity() > 0 && !b.isUnderMaintenance()){
+                if(b.getBicycleID().equals(BicycleID) && b.getQuantity() > 0){
                     selectedBicycle = b;
                     break;
                 }
@@ -650,40 +651,40 @@ public class Main {
         // voucher
         double discount = 0.0;
         String use = "";
-        do{
-            if(!customer.getActiveVouchers().isEmpty()){
-                System.out.print("Use a voucher? (Y/N): ");
-                use = sc.nextLine().trim().toUpperCase();
-                if(use.equals("Y")){
-                    System.out.println("\nYour Active Vouchers:");
-                    for (Voucher v : customer.getActiveVouchers()) {
-                        if(!v.isUsed())
-                            System.out.printf("- %s (RM%.2f OFF)\n", v.getCode(), v.getDiscountAmount());
+        double totalAmount = rt.getTotalPrice()  + rt.getDamageFee() + rt.getServiceFee();
+        if(totalAmount > 30.00){
+            do{
+                if(!customer.getActiveVouchers().isEmpty()){
+                    System.out.print("Use a voucher? (Y/N): ");
+                    use = sc.nextLine().trim().toUpperCase();
+                    if(use.equals("Y")){
+                        System.out.println("\nYour Active Vouchers:");
+                        for (Voucher v : customer.getActiveVouchers()) {
+                            if(!v.isUsed())
+                                System.out.printf("- %s (RM%.2f OFF)\n", v.getCode(), v.getDiscountAmount());
+                        }
+                        System.out.print("Enter voucher code: ");
+                        String code = sc.nextLine().trim().toUpperCase();
+                        Voucher v = customer.findActiveVoucher(code);
+                        if (v != null) {
+                            discount = v.getDiscountAmount();
+                            rt.setDiscount(discount);
+                            v.setUsed(true); 
+                            System.out.println("Voucher applied!\n");
+                        } else {
+                            System.out.println("Voucher not found in your active vouchers. No discount applied.\n");
+                        }
+                    }else if(use.equals("N")){
+                        System.out.println("Not discount applied.");
+                    }else{
+                        System.out.println("Invalid input. PLease enter Y or N.");
                     }
-                    System.out.print("Enter voucher code: ");
-                    String code = sc.nextLine().trim().toUpperCase();
-                    Voucher v = customer.findActiveVoucher(code);
-                    if (v != null) {
-                        discount = v.getDiscountAmount();
-                        rt.setDiscount(discount);
-                        v.setUsed(true); 
-                        System.out.println("Voucher applied!\n");
-                    } else {
-                        System.out.println("Voucher not found in your active vouchers. No discount applied.\n");
-                    }
-                }else if(use.equals("N")){
-                    System.out.println("Not discount applied.");
                 }else{
-                    System.out.println("Invalid input. PLease enter Y or N.");
+                    break;
                 }
-            }else{
-                break;
-            }
-        }while(!use.equals("Y") && !use.equals("N"));
-        
-        double totalAmount = rt.getTotalPrice() + rt.getDamageFee() + rt.getServiceFee();
-        
-        System.out.printf("Discount          : RM%.2f%n", discount);
+            }while(!use.equals("Y") && !use.equals("N"));
+            System.out.printf("Discount          : RM%.2f%n", discount);
+        }
         System.out.printf("Total Amount      : RM%.2f%n", totalAmount);
         System.out.println("Deposit Paid      : RM30.00");
         System.out.println("-------------------------------------");
@@ -709,13 +710,7 @@ public class Main {
             double addFees = 30 - totalAmount;
             System.out.printf("\nAdditional RM%.2f is returned back to your TNG%n", addFees);
         } 
-        
-        if(hasDamage){
-            selected.getBicycle().setUnderMaintenance(hasDamage);
-        }else{
-            selected.getBicycle().setQuantity(selected.getBicycle().getQuantity() + 1);
-        }
-        
+        selected.getBicycle().setDamaged(hasDamage);
         selected.setActive(false);
         int points = (int) Math.floor(rt.getFinalAmount() / 10);
         if(points < 0){
@@ -902,10 +897,6 @@ public class Main {
                 while (true) {
                     System.out.print("Enter new email: ");
                     String newEmail = sc.nextLine().trim();
-                    if (newEmail.equalsIgnoreCase(customer.getEmail())){
-                        System.out.println("Already registered Email! Try Again.");
-                        continue;
-                    }
                     if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) { 
                         System.out.println("Invalid email format!");
                         continue;

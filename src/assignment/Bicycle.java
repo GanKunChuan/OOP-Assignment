@@ -9,10 +9,10 @@ public class Bicycle {
     private double RatePerHour;
     private double RatePerDay;
     private int quantity;
-    private boolean underMaintenance;
+    private int underMaintenanceCount;
 
     // Constructor
-    public Bicycle(String BicycleID, String type, String brand, String model, String color, double RatePerHour, double RatePerDay, int quantity, boolean underMaintenance) {
+    public Bicycle(String BicycleID, String type, String brand, String model, String color, double RatePerHour, double RatePerDay, int quantity) {
         this.BicycleID = BicycleID;
         this.type = type;
         this.brand = brand;
@@ -21,9 +21,17 @@ public class Bicycle {
         this.RatePerHour = RatePerHour;
         this.RatePerDay = RatePerDay;
         this.quantity = quantity;
-        this.underMaintenance = underMaintenance;
+        this.underMaintenanceCount = 0;
     }
 
+    public void setDamaged(boolean damaged) {
+        if(damaged){
+            underMaintenanceCount++;
+        }else{
+            quantity++;
+        }
+    }
+    
     // getter & setter
     public String getBicycleID() {
         return BicycleID;
@@ -57,8 +65,8 @@ public class Bicycle {
         return quantity;
     }
 
-    public boolean isUnderMaintenance() {
-        return underMaintenance;
+    public int getUnderMaintenanceCount() {
+        return underMaintenanceCount;
     }
 
     public void setBicycleID(String BicycleID) {
@@ -93,9 +101,9 @@ public class Bicycle {
         this.quantity = quantity;
     }
 
-    public void setUnderMaintenance(boolean underMaintenance) {
-        this.underMaintenance = underMaintenance;
+    public void setUnderMaintenanceCount(int underMaintenanceCount) {
+        this.underMaintenanceCount = underMaintenanceCount;
     }
-    
+
 }
 
