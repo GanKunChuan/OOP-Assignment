@@ -104,4 +104,6 @@ public class Bicycle {
     public void setUnderMaintenanceCount(int underMaintenanceCount) {
         this.underMaintenanceCount = underMaintenanceCount;
     }
+
 }
+

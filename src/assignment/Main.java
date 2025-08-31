@@ -48,6 +48,7 @@ public class Main {
         bicycles.add(new Bicycle("B023","Electric Bike", "Trek", "Verve+ 2", "Green", 12.0, 45.0, 3));
         bicycles.add(new Bicycle("B024","Electric Bike", "Rad Power", "RadCity 5 Plus", "White", 10.0, 40.0, 3));
         bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 3));
+
         
         // Initial voucher
         vouchers.add(new Voucher("VCH5OFF", "RM5 OFF", 20, 5.0));
@@ -109,7 +110,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please Try Again.");
             }
-        }while(choice != 4);
+        }while(choice != 3);
         
     }
 
@@ -684,7 +685,6 @@ public class Main {
             }while(!use.equals("Y") && !use.equals("N"));
             System.out.printf("Discount          : RM%.2f%n", discount);
         }
-        
         System.out.printf("Total Amount      : RM%.2f%n", totalAmount);
         System.out.println("Deposit Paid      : RM30.00");
         System.out.println("-------------------------------------");
@@ -710,7 +710,6 @@ public class Main {
             double addFees = 30 - totalAmount;
             System.out.printf("\nAdditional RM%.2f is returned back to your TNG%n", addFees);
         } 
-        
         selected.getBicycle().setDamaged(hasDamage);
         selected.setActive(false);
         int points = (int) Math.floor(rt.getFinalAmount() / 10);
@@ -814,7 +813,17 @@ public class Main {
         String input4;
         int choice4;
         do{
-        System.out.println("\n=== Edit Profile Menu ===");
+        System.out.println("= = = = = = = = = = = = = = = = = = =");
+        System.out.println("            Edit Profile");
+        System.out.println("= = = = = = = = = = = = = = = = = = =\n");
+        System.out.println("Name     : " + customer.getName());
+        System.out.println("IC       : " + customer.getIC());
+        System.out.println("Email    : " + customer.getEmail());
+        System.out.println("Phone No : " + customer.getPhoneNo());
+        System.out.println("Gender   : " + customer.getGender());
+        System.out.println("Password : ******");  // hide actual password
+        System.out.println("----------------------------------------");
+        System.out.println("Enter choice [1-6] to edit or [7] to exit.");
         System.out.println("1. Edit Name");
         System.out.println("2. Edit IC Number");
         System.out.println("3. Edit Email");
@@ -852,7 +861,11 @@ public class Main {
                 while (true) {
                     System.out.print("Enter new name (Only letters and spaces allowed, min 4 characters): ");
                     String newName = sc.nextLine().trim();
-                    if (newName.matches("^[A-Za-z ]+$")) {
+                    if (newName.equalsIgnoreCase(customer.getName())){
+                        System.out.println("Already registered name! Try Again.");
+                        continue;
+                    }
+                    if (newName.matches("^[A-Za-z ]{4,}$")) {
                         customer.setName(newName);
                         System.out.println("Name updated successfully!");
                         break;
@@ -866,7 +879,11 @@ public class Main {
                 while (true) {
                     System.out.print("Enter new IC (e.g. XXXXXX-XX-XXXX): ");
                     String newIC = sc.nextLine().trim();
-                    if (newIC.matches("\\d{12}")) {
+                    if (newIC.equalsIgnoreCase(customer.getIC())){
+                        System.out.println("Already registered IC! Try Again.");
+                        continue;
+                    }
+                    if (newIC.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
                         customer.setIC(newIC);
                         System.out.println("IC updated successfully!");
                         break;
@@ -905,7 +922,11 @@ public class Main {
                 while (true) {
                     System.out.print("Enter new phone number (e.g. 0123456789): ");
                     String newPhoneNo = sc.nextLine().trim();
-                    if (newPhoneNo.matches("0\\d{9,10}")) {
+                    if (newPhoneNo.equalsIgnoreCase(customer.getPhoneNo())){
+                        System.out.println("Already registered Phone No! Try Again.");
+                        continue;
+                    }
+                    if (newPhoneNo.matches("^01\\d{8,9}$")) {
                         customer.setPhoneNo(newPhoneNo);
                         System.out.println("Phone updated successfully!");
                         break;
@@ -918,7 +939,7 @@ public class Main {
             case 5: // Gender
                 while (true) {
                     System.out.print("Enter gender (M/F): ");
-                    String newGender = sc.nextLine().trim().toUpperCase();
+                    String newGender = sc.nextLine().trim();
                     if (newGender.equals("M") || newGender.equals("F")) {
                         customer.setGender(newGender.charAt(0));
                         System.out.println("Gender updated successfully!");

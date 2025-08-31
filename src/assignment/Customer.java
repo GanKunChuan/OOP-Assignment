@@ -11,7 +11,7 @@ public class Customer extends User{
     private int rewardPoints;
     private List<Voucher> activeVouchers = new ArrayList<>();
     
-    public Customer(String name, String email, String IC, String PhoneNo, char gender, String password){
+    public Customer(String name, String email, String IC, String phoneNo, char gender, String password){
         super(name, email, password, "customer");
         this.IC = IC;
         this.phoneNo = phoneNo;
