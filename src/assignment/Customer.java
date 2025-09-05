@@ -26,6 +26,51 @@ public class Customer extends User{
         }
         return null;
     }
+    
+    public void showActiveVouchers() {
+        System.out.println("\nYour Active Vouchers:");
+        int i = 0;
+        for (Voucher v : activeVouchers) {
+            if(!v.isUsed()){
+                System.out.println((i+1) + ". " + v.getTitle() + " [Code: " + v.getCode() + "]");
+                i++;
+            }    
+        }
+        
+        if (i == 0) {
+            System.out.println(" - (none) -");
+        }
+    }
+
+    public void showAvailableVouchers(List<Voucher> allVouchers) {
+        System.out.println("\nAvailable Vouchers:");
+        for (int i = 0; i < allVouchers.size(); i++) {
+            Voucher v = allVouchers.get(i);
+            System.out.println((i+1) + ". " + v.getCode() + ": "+ v.getTitle() + " (Cost: " + v.getPointRequired() + " points)");
+        }
+    }
+
+    public void redeemVoucher(int option, List<Voucher> allVouchers) {
+        if (option < 1 || option > allVouchers.size()) {
+            System.out.println("Invalid option.");
+            return;
+        }
+        Voucher selected = allVouchers.get(option-1);
+
+        if (rewardPoints >= selected.getPointRequired()) {
+            rewardPoints -= selected.getPointRequired();
+            activeVouchers.add(new Voucher(
+                selected.getCode(), 
+                selected.getTitle(), 
+                selected.getPointRequired(), 
+                selected.getDiscountAmount()
+            ));
+            System.out.println("Redeemed Successfully! Voucher Code: " + selected.getCode());
+        } else {
+            System.out.println("Not enough points. Needed: " + selected.getPointRequired() + 
+                               ", You have: " + rewardPoints);
+        }
+    }
 
      public String getUserID() {
         return UserID;

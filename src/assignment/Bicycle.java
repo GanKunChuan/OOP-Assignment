@@ -32,6 +32,11 @@ public class Bicycle {
         }
     }
     
+    public void repair(){
+        underMaintenanceCount--;
+        quantity++;
+    }
+    
     // getter & setter
     public String getBicycleID() {
         return BicycleID;

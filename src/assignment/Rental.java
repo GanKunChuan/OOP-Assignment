@@ -16,6 +16,7 @@ public class Rental {
     private boolean active;
     private Customer customer;
     private Bicycle bicycle;
+    private Return rentalReturn;
 
     public Rental(String rentalType, LocalDateTime startTime, Customer customer, Bicycle bicycle) {
         this.rentalID = String.format("R%03d", nextRentalNum++);
@@ -57,9 +58,17 @@ public class Rental {
     public Bicycle getBicycle() {
         return bicycle;
     }
+    
+    public Return getReturns(){
+        return rentalReturn;
+    }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public void setRentalReturns(Return rentalReturn){
+        this.rentalReturn = rentalReturn;
     }
 
     @Override

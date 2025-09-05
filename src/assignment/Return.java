@@ -56,6 +56,10 @@ public class Return {
         calculateFees(); 
     }
     
+    public void setFinalAmount(double finalAmount){
+        this.finalAmount = finalAmount;
+    }
+    
     private void calculateDuration(){
         long d = Duration.between(rental.getStartTime(),returnTime).toMinutes();
         this.duration = Math.ceil(d/60.0);

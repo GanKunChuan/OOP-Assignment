@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Scanner; 
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);
@@ -50,7 +50,7 @@ public class Main {
         bicycles.add(new Bicycle("B025","Electric Bike", "Cannondale", "Tesoro Neo X", "Blue", 7.0, 35.0, 3));
         
         // Initial voucher
-        vouchers.add(new Voucher("VCH5OFF", "RM5 OFF", 20, 5.0));
+        vouchers.add(new Voucher("VCH5OFF", "RM5 OFF", 2, 5.0));
         vouchers.add(new Voucher("VCH10OFF", "RM10 OFF", 30, 10.0));
         vouchers.add(new Voucher("VCH20OFF", "RM20 OFF", 50, 20.0));
         vouchers.add(new Voucher("VCH25OFF", "RM25 OFF", 65, 25.0));
@@ -109,7 +109,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please Try Again.");
             }
-        }while(choice != 4);
+        }while(choice != 3);
         
     }
 
@@ -315,10 +315,10 @@ public class Main {
                     returnBicycle(customer);
                     break;
                 case 3: 
-                    //rentalHistory(customer);
+                    rentalHistory(customer);
                     break;
                 case 4: 
-                    // reward()
+                    reward(customer);
                     break;
                 case 5:
                     editProfile(customer, sc, new ArrayList<>(users));
@@ -371,7 +371,7 @@ public class Main {
             
             switch(choice3){
                 case 1: 
-                    // manageBicycles()
+                    manageBicycles(admin);
                     break;
                 case 2: 
                     // viewReports()
@@ -636,6 +636,7 @@ public class Main {
         
         LocalDateTime returnTime = LocalDateTime.now();
         Return rt = new Return(selected,returnTime,hasDamage);
+        selected.setRentalReturns(rt);
         
         //Show summary
         System.out.println("---------------RETURN---------------");
@@ -665,12 +666,17 @@ public class Main {
                         System.out.print("Enter voucher code: ");
                         String code = sc.nextLine().trim().toUpperCase();
                         Voucher v = customer.findActiveVoucher(code);
-                        if (v != null) {
+                        if (v != null && v.getDiscountAmount() < (totalAmount - v.getDiscountAmount())) {
                             discount = v.getDiscountAmount();
                             rt.setDiscount(discount);
                             v.setUsed(true); 
                             System.out.println("Voucher applied!\n");
-                        } else {
+                        } else if(v.getDiscountAmount() > (totalAmount - v.getDiscountAmount())){
+                            discount = v.getDiscountAmount();
+                            rt.setDiscount(discount);
+                            v.setUsed(true);
+                            rt.setFinalAmount(0);
+                        }else {
                             System.out.println("Voucher not found in your active vouchers. No discount applied.\n");
                         }
                     }else if(use.equals("N")){
@@ -705,7 +711,7 @@ public class Main {
                 System.out.println("Payment Successful!");
             }
         }else if(rt.getFinalAmount() == 0){
-            System.out.println("No additional payment required. Deposit covers all.");
+            System.out.println("No additional payment required. Deposit covers all.\n");
         }else{
             double addFees = 30 - totalAmount;
             System.out.printf("\nAdditional RM%.2f is returned back to your TNG%n", addFees);
@@ -727,7 +733,11 @@ public class Main {
         System.out.println("Rental ID  : " + selected.getRentalID());
         System.out.println("Bicycle    : " + selected.getBicycle().getType() + " " + selected.getBicycle().getBrand() +
                 " " + selected.getBicycle().getModel() + " " + selected.getBicycle().getColor());
-        System.out.println("Duration   : " + rt.getDuration() + " hours");
+        if(selected.getRentalType().equals("Hourly")){
+            System.out.println("   Duration     : " + rt.getDuration()+ " hours");
+        }else{
+            System.out.println("   Duration     : " + (int)rt.getDuration() + " day");
+        }
         if(rt.getFinalAmount() < 0){
             System.out.printf("Refund     : RM%.2f%n", Math.abs(rt.getFinalAmount()));
         }else{
@@ -809,22 +819,190 @@ public class Main {
         }
         
     }
+    
+    private static void rentalHistory(Customer customer) {
+        System.out.println("\n==============================================");
+        System.out.println("              Rental History");
+        System.out.println("==============================================");
+        System.out.println("Customer: " + customer.name);
+        
+        List<Rental> activeRentals = new ArrayList<>();
+        List<Rental> completedRentals = new ArrayList<>();
+        for(Rental r: rentals){
+           if(r.isActive() && r.getCustomer().equals(customer)){
+               activeRentals.add(r);
+           }else if(!r.isActive() && r.getCustomer().equals(customer)){
+               completedRentals.add(r);
+           }
+        }
+        
+        if(activeRentals.isEmpty() && completedRentals.isEmpty()){
+            System.out.println("No rental history found");
+            System.out.print("\n~PRESS [ENTER] TO RETURN TO MAIN MENU~");
+            sc.nextLine();
+            return;
+        }
+        
+        // --- 1. Display Current Active Rentals ---
+        if(!activeRentals.isEmpty()){
+            System.out.println("--------------------------------------------");
+            System.out.println("Current Active Rentals: ");
+            System.out.println("--------------------------------------------");
+            int activeCount = 1;
+            for(Rental r: activeRentals){
+                String rentalStr = r.toString();
+                String[] lines = rentalStr.split("\n");
+                System.out.println(activeCount + ". " + lines[0]);
+                for(int j = 1; j < lines.length; j++){
+                    System.out.println("   " + lines[j]);
+                }
+                System.out.println("   Deposit      : RM30.00\n");
+                activeCount++;
+            }
+        }else{
+            System.out.println("No active rentals found.\n");
+        }
+        
+        // --- 2. Display Completed Rental History ---
+        if(!completedRentals.isEmpty()){
+            System.out.println("--------------------------------------------");
+            System.out.println("Completed Rental: ");
+            System.out.println("--------------------------------------------");
+            int completedCount = 1;
+            for(Rental r: completedRentals){
+                Return rt = r.getReturns();
+                    String rentalStr = r.toString();
+                    String[] lines = rentalStr.split("\n");
+                    System.out.println(completedCount + ". " + lines[0]);
+                    for(int j = 1; j < lines.length; j++){
+                        System.out.println("   " + lines[j]);
+                    }
+                    System.out.println("   Return Time  : " + rt.getReturnTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                    if(r.getRentalType().equals("Hourly")){
+                        System.out.println("   Duration     : " + rt.getDuration()+ " hours");
+                    }else{
+                        System.out.println("   Duration     : " + (int)rt.getDuration() + " day");
+                    }
+                    System.out.printf("   Total Price        : RM%.2f%n", rt.getTotalPrice());
+                    System.out.printf("   Damage Fee(if any) : RM%.2f%n", rt.getDamageFee());
+                    System.out.printf("   Service Fee(6%%)    : RM%.2f%n", rt.getServiceFee());
+                    System.out.printf("   Discount           : RM%.2f%n", rt.getDiscount());
+                    System.out.println("   Deposit Paid       : RM30.00");
+                    if(r.getReturns().getFinalAmount() < 0){
+                        System.out.printf("   Total Refund       : RM%.2f%n", Math.abs(rt.getFinalAmount()));
+                        System.out.println("");
+                    }else{
+                        System.out.printf("   Total Paid         : RM%.2f%n", rt.getFinalAmount());
+                        System.out.println("");
+                    }
+                    completedCount++;
+            }
+        }else{
+            System.out.println("No completed rentals found.\n");
+        }
+    
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO MAIN MENU~");
+        sc.nextLine();
+    }
+    
+    public static void reward (Customer customer) {
+        String input5;
+        int choice5;
+        do {
+            System.out.println("\n==============================");
+            System.out.println("     Reward & Voucher Menu    ");
+            System.out.println("==============================");
+            System.out.println("Reward Points: " + customer.getRewardPoints() + " pts");
+            System.out.println("Earn 1 Point for every RM10 spent.");
+            customer.showActiveVouchers();
+            System.out.println("\n[1] Redeem New Voucher");
+            System.out.println("[2] Back to Main Menu");
+            
+            // Input validation loop
+            boolean isNumber;
+            do{
+               System.out.print("\nEnter Your Choice: ");
+               input5 = sc.nextLine().trim();
+                
+               isNumber = true;
+               if(input5.isEmpty()){
+                   isNumber = false;
+               }else{
+                    for (int i = 0; i < input5.length(); i++){
+                        if(!Character.isDigit(input5.charAt(i))){
+                            isNumber = false;
+                            break;
+                        }
+                    }
+               }
+                if(isNumber == false){
+                    System.out.println("Invalid choice! Please choose [1] or [2].\n");
+                }
+            }while(isNumber == false);
+
+            choice5 = Integer.parseInt(input5);
+            
+            switch (choice5) {
+                case 1: {
+                    customer.showAvailableVouchers(vouchers);
+                    System.out.print("\nEnter voucher to redeem (1-" + vouchers.size() + ") OR [B] to go back: ");
+                    String input = sc.nextLine().trim();
+                    if (input.equalsIgnoreCase("B")) 
+                        break;
+                    int opt;
+                    try {  //make sure for valid int input
+                        opt = Integer.parseInt(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid option! Try Again.\n");
+                        continue;
+                    } 
+
+                    System.out.print("Confirm redeem? (Y/N): ");
+                    String conf = sc.nextLine().trim();
+                    if (conf.equals("Y")) {
+                        customer.redeemVoucher(opt, vouchers);
+                    } else if (conf.equals("N")){
+                        System.out.println("Redemption cancelled.\n");
+                    }
+                    else {
+                        System.out.println("Invalid! Enter Y or N.\n");
+                    }
+                }
+                case 2: 
+                   System.out.println("Exiting reward redeem...");
+                   return;  //back to menu
+                
+                default:
+                    System.out.println("Invalid choice! Please choose [1] or [2].\n");
+            }
+        } while(choice5 != 2);
+    }  
 
     public static void editProfile(Customer customer, Scanner sc, ArrayList<User> users) {
         String input4;
         int choice4;
         do{
-        System.out.println("\n=== Edit Profile Menu ===");
-        System.out.println("1. Edit Name");
-        System.out.println("2. Edit IC Number");
-        System.out.println("3. Edit Email");
-        System.out.println("4. Edit Phone Number");
-        System.out.println("5. Edit Gender");
-        System.out.println("6. Edit Password");
-        System.out.println("7. Exit");
+            System.out.println("= = = = = = = = = = = = = = = = = = =");
+            System.out.println("            Edit Profile");
+            System.out.println("= = = = = = = = = = = = = = = = = = =\n");
+            System.out.println("Name     : " + customer.getName());
+            System.out.println("IC       : " + customer.getIC());
+            System.out.println("Email    : " + customer.getEmail());
+            System.out.println("Phone No : " + customer.getPhoneNo());
+            System.out.println("Gender   : " + customer.getGender());
+            System.out.println("Password : ******");  // hide actual password
+            System.out.println("----------------------------------------");
+            System.out.println("Enter choice [1-6] to edit or [7] to exit.");
+            System.out.println("1. Edit Name");
+            System.out.println("2. Edit IC Number");
+            System.out.println("3. Edit Email");
+            System.out.println("4. Edit Phone Number");
+            System.out.println("5. Edit Gender");
+            System.out.println("6. Edit Password");
+            System.out.println("7. Exit");
        
-        // Input validation loop
-        boolean isNumber;
+            // Input validation loop
+            boolean isNumber;
             do{
                System.out.print("\nEnter Your Choice: ");
                input4 = sc.nextLine().trim();
@@ -841,133 +1019,421 @@ public class Main {
                     }
                }
                 if(isNumber == false){
-                    System.out.println("Invalid input. Please enter again.");
+                    System.out.println("Invalid choice. Please enter again.\n");
                 }
             }while(isNumber == false);
             
             choice4 = Integer.parseInt(input4);
 
-        switch (choice4) {
-            case 1: // Name
-                while (true) {
-                    System.out.print("Enter new name (Only letters and spaces allowed, min 4 characters): ");
-                    String newName = sc.nextLine().trim();
-                    if (newName.matches("^[A-Za-z ]+$")) {
-                        customer.setName(newName);
-                        System.out.println("Name updated successfully!");
-                        break;
-                    } else {
-                        System.out.println("Invalid name! Try Again!");
+            switch (choice4) {
+                case 1: // Name
+                    while (true) {
+                        System.out.print("Enter new name (Only letters and spaces allowed, min 4 characters): ");
+                        String newName = sc.nextLine().trim();
+                        if (newName.equalsIgnoreCase(customer.getName())){
+                            System.out.println("Already registered name! Try Again.\n");
+                            continue;
+                        }
+                        if (newName.matches("^[A-Za-z ]{4,}$")) {
+                            customer.setName(newName);
+                            System.out.println("Name updated successfully!\n");
+                            break;
+                        } else {
+                            System.out.println("Invalid name! Try Again!\n");
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 2: // IC Number
-                while (true) {
-                    System.out.print("Enter new IC (e.g. XXXXXX-XX-XXXX): ");
-                    String newIC = sc.nextLine().trim();
-                    if (newIC.matches("\\d{12}")) {
-                        customer.setIC(newIC);
-                        System.out.println("IC updated successfully!");
-                        break;
-                    } else {
-                        System.out.println("Invalid IC! Try Again!");
+                case 2: // IC Number
+                    while (true) {
+                        System.out.print("Enter new IC (e.g. XXXXXX-XX-XXXX): ");
+                        String newIC = sc.nextLine().trim();
+                        if (newIC.equalsIgnoreCase(customer.getIC())){
+                            System.out.println("Already registered IC! Try Again.\n");
+                            continue;
+                        }
+                        if (newIC.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
+                            customer.setIC(newIC);
+                            System.out.println("IC updated successfully!\n");
+                            break;
+                        } else {
+                            System.out.println("Invalid IC! Try Again.\n");
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 3: // Email
-                while (true) {
-                    System.out.print("Enter new email: ");
-                    String newEmail = sc.nextLine().trim();
-                    if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) { 
-                        System.out.println("Invalid email format!");
-                        continue;
-                    }
-                    boolean exists = false;
-                    for (User u : users) {
-                        if (u != customer && u.email.equalsIgnoreCase(newEmail)) {
-                            exists = true;
+                case 3: // Email
+                    while (true) {
+                        System.out.print("Enter new email: ");
+                        String newEmail = sc.nextLine().trim();
+                        if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) { 
+                            System.out.println("Invalid email format! Try Again.\n");
+                            continue;
+                        }
+                        boolean exists = false;
+                        for (User u : users) {
+                            if (u != customer && u.email.equalsIgnoreCase(newEmail)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (exists) {
+                            System.out.println("Email already in use! Try another.\n");
+                        } else {
+                            customer.setEmail(newEmail);
+                            System.out.println("Email updated successfully!\n");
                             break;
                         }
                     }
-                    if (exists) {
-                        System.out.println("Email already in use! Try another.");
-                    } else {
-                        customer.setEmail(newEmail);
-                        System.out.println("Email updated successfully!");
-                        break;
-                    }
-                }
-                break;
+                    break;
 
-            case 4: // PhoneNo
-                while (true) {
-                    System.out.print("Enter new phone number (e.g. 0123456789): ");
-                    String newPhoneNo = sc.nextLine().trim();
-                    if (newPhoneNo.matches("0\\d{9,10}")) {
-                        customer.setPhoneNo(newPhoneNo);
-                        System.out.println("Phone updated successfully!");
-                        break;
-                    } else {
-                        System.out.println("Invalid phone! Try Again!");
+                case 4: // PhoneNo
+                    while (true) {
+                        System.out.print("Enter new phone number (e.g. 0123456789): ");
+                        String newPhoneNo = sc.nextLine().trim();
+                        if (newPhoneNo.equalsIgnoreCase(customer.getPhoneNo())){
+                            System.out.println("Already registered Phone No! Try Again.\n");
+                            continue;
+                        }
+                        if (newPhoneNo.matches("^01\\d{8,9}$")) {
+                            customer.setPhoneNo(newPhoneNo);
+                            System.out.println("Phone updated successfully!\n");
+                            break;
+                        } else {
+                            System.out.println("Invalid phone! Try Again.\n");
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 5: // Gender
-                while (true) {
-                    System.out.print("Enter gender (M/F): ");
-                    String newGender = sc.nextLine().trim().toUpperCase();
-                    if (newGender.equals("M") || newGender.equals("F")) {
-                        customer.setGender(newGender.charAt(0));
-                        System.out.println("Gender updated successfully!");
-                        break;
-                    } else {
-                        System.out.println("Invalid! Enter M or F.");
+                case 5: // Gender
+                    while (true) {
+                        System.out.print("Enter gender (M/F): ");
+                        String newGender = sc.nextLine().trim();
+                        if (newGender.equals("M") || newGender.equals("F")) {
+                            customer.setGender(newGender.charAt(0));
+                            System.out.println("Gender updated successfully!\n");
+                            break;
+                        } else {
+                            System.out.println("Invalid! Enter M or F.\n");
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 6: // Password
-                while (true) {
-                    System.out.print("Enter current password: ");
-                    String current = sc.nextLine();
-                    if (!current.equals(customer.getPassword())) {
-                        System.out.println("Wrong current password!");
-                    } else {
-                        break;
+                case 6: // Password
+                    while (true) {
+                        System.out.print("Enter current password: ");
+                        String current = sc.nextLine();
+                        if (!current.equals(customer.getPassword())) {
+                            System.out.println("Wrong current password! Try Again.\n");
+                        } else {
+                            break;
+                        }
                     }
-                }
-                while (true) {
-                    System.out.print("Enter new password (At least 6 characters and contain digit): ");
-                    String newPass = sc.nextLine();
-                    if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
-                        System.out.println("Invalid password format!");
-                        continue;
+                    while (true) {
+                        System.out.print("Enter new password (At least 6 characters and contain digit): ");
+                        String newPass = sc.nextLine();
+                        if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
+                            System.out.println("Invalid password format! Try Again.\n");
+                            continue;
+                        }
+                        System.out.print("Confirm new password: ");
+                        String confirm = sc.nextLine();
+                        if (!confirm.equals(newPass)) {
+                            System.out.println("Passwords do not match! Try again.\n");
+                        } else {
+                            customer.setPassword(confirm);
+                            System.out.println("Password updated successfully!\n");
+                            break;
+                        }
                     }
-                    System.out.print("Confirm new password: ");
-                    String confirm = sc.nextLine();
-                    if (!confirm.equals(newPass)) {
-                        System.out.println("Passwords do not match! Try again!");
-                    } else {
-                        customer.setPassword(confirm);
-                        System.out.println("Password updated successfully!");
-                        break;
-                    }
-                }
-                
-                break;
+                    break;
 
-            case 7:
-                System.out.println("Exiting profile edit...");
-                return; // exit method
+                case 7:
+                    System.out.println("Exiting profile edit...");
+                    return; // exit method
 
-            default:
-                System.out.println("Invalid choice! Please Try Again!");
-        
+                default:
+                    System.out.println("Invalid choice! Please Try Again.\n");
+            }
+        }while(choice4 != 7);
+    }
+    
+    // Admin features
+    private static void manageBicycles(Admin admin) {
+        String input;
+        int choice;
+        do {
+            System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("      Manage Bicycles");
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("[1] View All Bicycles");
+            System.out.println("[2] Add New Bicycle");
+            System.out.println("[3] Update Bicycle Details");
+            System.out.println("[4] Delete Bicycle");
+            System.out.println("[5] Repair Bicycle");
+            System.out.println("[0] Back to Admin Menu");
+
+            boolean isNumber;
+            do {
+                System.out.print("\nEnter Your Choice: ");
+                input = sc.nextLine().trim();
+                isNumber = !input.isEmpty() && input.chars().allMatch(Character::isDigit);
+                if (!isNumber) {
+                    System.out.println("Invalid input. Please enter a number.");
+                }
+            } while (!isNumber);
+            choice = Integer.parseInt(input);
+
+            switch (choice) {
+                case 1:
+                    viewAllBicycles();
+                    break;
+                case 2:
+                    addBicycle();
+                    break;
+                case 3:
+                    updateBicycle();
+                    break;
+                case 4:
+                    deleteBicycle();
+                    break;
+                case 5:
+                    repairBicycle();
+                    break;  
+                case 0:
+                    System.out.println("Returning to Admin Menu...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 0);
+    }
+
+    private static void viewAllBicycles() {
+        System.out.println("\n--- Current Bicycle Status ---");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-6s | %-15s | %-12s | %-20s | %-10s | %-12s | %-12s | %-4s | %-15s |%n",
+                "ID", "Type", "Brand", "Model", "Color", "Rate/Hr(RM)", "Rate/Day(RM)", "Qty", "Under Maintenance");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        for (Bicycle b : bicycles) {
+            System.out.printf("| %-6s | %-15s | %-12s | %-20s | %-10s | %-12.2f | %-12.2f | %-4d | %-15d |%n",
+                    b.getBicycleID(), b.getType(), b.getBrand(), b.getModel(), b.getColor(),
+                    b.getRatePerHour(), b.getRatePerDay(), b.getQuantity(), b.getUnderMaintenanceCount());
         }
-    }while(choice4 != 7);
-  }
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO THE MAIN MENU~");
+        sc.nextLine();
+    }
+
+    private static void addBicycle() {
+        System.out.println("\n--------------------------");
+        System.out.println("    + Add New Bicycle");
+        System.out.println("--------------------------");
+        // Get Bicycle Type
+        System.out.println("Select Bicycle Type:");
+        System.out.println("1. Folding Bike\n2. Mountain Bike\n3. Road Bike\n4. Tandem Bike\n5. Electric Bike");
+        String type = "";
+        while(type.isEmpty()) {
+            System.out.print("> ");
+            String choice = sc.nextLine().trim();
+            switch(choice) {
+                case "1": type = "Folding Bike"; break;
+                case "2": type = "Mountain Bike"; break;
+                case "3": type = "Road Bike"; break;
+                case "4": type = "Tandem Bike"; break;
+                case "5": type = "Electric Bike"; break;
+                default: System.out.println("Invalid type. Please enter a number from 1-5.");
+            }
+        }
+
+        System.out.print("Enter Brand: ");
+        String brand = sc.nextLine().trim();
+        System.out.print("Enter Model: ");
+        String model = sc.nextLine().trim();
+        System.out.print("Enter Color: ");
+        String color = sc.nextLine().trim();
+
+        double ratePerHour = -1, ratePerDay = -1;
+        int quantity = -1;
+
+        // Input validation for numbers
+        while (ratePerHour < 0) {
+            try {
+                System.out.print("Enter Rate Per Hour (RM): ");
+                ratePerHour = Double.parseDouble(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        
+        while (ratePerDay < 0) {
+            try {
+                System.out.print("Enter Rate Per Day (RM): ");
+                ratePerDay = Double.parseDouble(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        while (quantity < 0) {
+            try {
+                System.out.print("Enter Quantity Available: ");
+                quantity = Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+            }
+        }
+
+        // Generate new Bicycle ID
+        String newId = String.format("B%03d", nextBikeNum++);
+        Bicycle newBicycle = new Bicycle(newId, type, brand, model, color, ratePerHour, ratePerDay, quantity);
+        bicycles.add(newBicycle);
+
+        System.out.println("\nBicycle " + newId + " added successfully!");
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO THE MAIN MENU~");
+        sc.nextLine();
+    }
+
+    private static void updateBicycle() {
+        System.out.println("\n--------------------------");
+        System.out.println("     Update Bicycle");
+        System.out.println("--------------------------");
+        System.out.print("Enter Bicycle ID to update: ");
+        String id = sc.nextLine().trim().toUpperCase();
+
+        Bicycle toUpdate = null;
+        for (Bicycle b : bicycles) {
+            if (b.getBicycleID().equals(id)) {
+                toUpdate = b;
+                break;
+            }
+        }
+
+        if (toUpdate == null) {
+            System.out.println("Bicycle ID not found.");
+            return;
+        }
+
+        System.out.println("\nUpdating details for " + toUpdate.getBrand() + " " + toUpdate.getModel() + " (" + id + ")");
+        System.out.println("Leave blank to keep current value.");
+
+        try {
+            System.out.print("Enter new Rate Per Hour (Current: " + toUpdate.getRatePerHour() + "): ");
+            String newRateHr = sc.nextLine().trim();
+            if (!newRateHr.isEmpty()) {
+                toUpdate.setRatePerHour(Double.parseDouble(newRateHr));
+            }
+
+            System.out.print("Enter new Rate Per Day (Current: " + toUpdate.getRatePerDay() + "): ");
+            String newRateDay = sc.nextLine().trim();
+            if (!newRateDay.isEmpty()) {
+                toUpdate.setRatePerDay(Double.parseDouble(newRateDay));
+            }
+
+            System.out.print("Enter new Quantity (Current: " + toUpdate.getQuantity() + "): ");
+            String newQty = sc.nextLine().trim();
+            if (!newQty.isEmpty()) {
+                toUpdate.setQuantity(Integer.parseInt(newQty));
+            }
+            System.out.println("\nBicycle details updated successfully!");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format. Update failed.");
+        }
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO THE MAIN MENU~");
+        sc.nextLine();
+    }
+
+    private static void deleteBicycle() {
+        System.out.println("\n--------------------------");
+        System.out.println("    - Delete Bicycle");
+        System.out.println("--------------------------");
+        System.out.print("Enter Bicycle ID to delete: ");
+        String id = sc.nextLine().trim().toUpperCase();
+
+        Bicycle toDelete = null;
+        for (Bicycle b : bicycles) {
+            if (b.getBicycleID().equals(id)) {
+                toDelete = b;
+                break;
+            }
+        }
+
+        if (toDelete == null) {
+            System.out.println("Bicycle ID not found.");
+            return;
+        }
+
+        System.out.print("Are you sure you want to delete " + toDelete.getBrand() + " " + toDelete.getModel() + "? (Y/N): ");
+        String confirm = sc.nextLine().trim().toUpperCase();
+
+        if (confirm.equals("Y")) {
+            bicycles.remove(toDelete);
+            System.out.println("Bicycle deleted successfully!");
+        } else {
+            System.out.println("Deletion cancelled.");
+        }
+        System.out.print("\n~PRESS [ENTER] TO RETURN TO THE MAIN MENU~");
+        sc.nextLine();
+    }
+    
+    private static void repairBicycle() {
+        System.out.println("\n----------------------------");
+        System.out.println("       Repair Bicycle");
+        System.out.println("----------------------------");
+        boolean foundMaintenance = false;
+        for(Bicycle b : bicycles){
+            if(b.getUnderMaintenanceCount() > 0){
+                foundMaintenance = true;
+                System.out.printf("%s - %s %s (%s) \nUnder Maintenance: %d%n",
+                b.getBicycleID(), b.getBrand(), b.getModel(), b.getColor(), b.getUnderMaintenanceCount());
+            }
+        }
+        
+        if(!foundMaintenance){
+            System.out.println("No bicycle currently under maintenance.");
+            System.out.print("\n~PRESS [ENTER] TO RETURN TO THE MAIN MENU~");
+            sc.nextLine();
+            return;
+        }
+        
+        Bicycle repairBicycle = null;
+        do{
+            System.out.print("\nEnter Bicycle ID to repair: ");
+            String repairID = sc.nextLine().trim().toUpperCase();
+            
+            for(Bicycle b : bicycles){
+                if(b.getBicycleID().equals(repairID)){
+                    if(b.getUnderMaintenanceCount() > 0){
+                        repairBicycle = b;
+                        break;
+                    }
+                }
+            }
+            
+            if(repairBicycle == null){
+                System.out.println("Invalid Bicycle ID. Please try again.");
+            }
+            
+        }while(repairBicycle == null);
+        
+        String confirm = "";
+        do{
+            System.out.print("Confirm to repair? (Y/N): ");
+            confirm = sc.nextLine().trim().toUpperCase();
+            
+            if(confirm.equals("Y")){
+                repairBicycle.repair();
+                System.out.println("\n1 unit of " + repairBicycle.getBrand() + " " 
+                + repairBicycle.getModel() + " has been repaired and returned to available stock.");
+            }else if(confirm.equals("N")){
+                System.out.println("Returning to Admin Menu...");
+                return;
+            }else{
+                System.out.println("Invalid input. Please enter Y or N.\n");
+            }
+            
+        }while(!confirm.equals("Y") && !confirm.equals("N"));
+  
+    }
 
 }
