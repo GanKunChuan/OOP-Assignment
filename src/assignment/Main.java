@@ -319,7 +319,7 @@ public class Main {
                     //rentalHistory(customer);
                     break;
                 case 4: 
-                    // reward()
+                    reward(customer);
                     break;
                 case 5:
                     editProfile(customer, sc, new ArrayList<>(users));
@@ -850,7 +850,7 @@ public class Main {
                     }
                }
                 if(isNumber == false){
-                    System.out.println("Invalid input. Please enter again.");
+                    System.out.println("Invalid choice. Please enter again.\n");
                 }
             }while(isNumber == false);
             
@@ -862,7 +862,7 @@ public class Main {
                     System.out.print("Enter new name (Only letters and spaces allowed, min 4 characters): ");
                     String newName = sc.nextLine().trim();
                     if (newName.equalsIgnoreCase(customer.getName())){
-                        System.out.println("Already registered name! Try Again.");
+                        System.out.println("Already registered name! Try Again.\n");
                         continue;
                     }
                     if (newName.matches("^[A-Za-z ]{4,}$")) {
@@ -870,7 +870,7 @@ public class Main {
                         System.out.println("Name updated successfully!");
                         break;
                     } else {
-                        System.out.println("Invalid name! Try Again!");
+                        System.out.println("Invalid name! Try Again!\n");
                     }
                 }
                 break;
@@ -880,7 +880,7 @@ public class Main {
                     System.out.print("Enter new IC (e.g. XXXXXX-XX-XXXX): ");
                     String newIC = sc.nextLine().trim();
                     if (newIC.equalsIgnoreCase(customer.getIC())){
-                        System.out.println("Already registered IC! Try Again.");
+                        System.out.println("Already registered IC! Try Again.\n");
                         continue;
                     }
                     if (newIC.matches("^\\d{6}-\\d{2}-\\d{4}$")) {
@@ -888,7 +888,7 @@ public class Main {
                         System.out.println("IC updated successfully!");
                         break;
                     } else {
-                        System.out.println("Invalid IC! Try Again!");
+                        System.out.println("Invalid IC! Try Again.\n");
                     }
                 }
                 break;
@@ -898,7 +898,7 @@ public class Main {
                     System.out.print("Enter new email: ");
                     String newEmail = sc.nextLine().trim();
                     if (!newEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$")) { 
-                        System.out.println("Invalid email format!");
+                        System.out.println("Invalid email format! Try Again.\n");
                         continue;
                     }
                     boolean exists = false;
@@ -909,7 +909,7 @@ public class Main {
                         }
                     }
                     if (exists) {
-                        System.out.println("Email already in use! Try another.");
+                        System.out.println("Email already in use! Try another.\n");
                     } else {
                         customer.setEmail(newEmail);
                         System.out.println("Email updated successfully!");
@@ -923,7 +923,7 @@ public class Main {
                     System.out.print("Enter new phone number (e.g. 0123456789): ");
                     String newPhoneNo = sc.nextLine().trim();
                     if (newPhoneNo.equalsIgnoreCase(customer.getPhoneNo())){
-                        System.out.println("Already registered Phone No! Try Again.");
+                        System.out.println("Already registered Phone No! Try Again.\n");
                         continue;
                     }
                     if (newPhoneNo.matches("^01\\d{8,9}$")) {
@@ -931,7 +931,7 @@ public class Main {
                         System.out.println("Phone updated successfully!");
                         break;
                     } else {
-                        System.out.println("Invalid phone! Try Again!");
+                        System.out.println("Invalid phone! Try Again.\n");
                     }
                 }
                 break;
@@ -945,7 +945,7 @@ public class Main {
                         System.out.println("Gender updated successfully!");
                         break;
                     } else {
-                        System.out.println("Invalid! Enter M or F.");
+                        System.out.println("Invalid! Enter M or F.\n");
                     }
                 }
                 break;
@@ -955,7 +955,7 @@ public class Main {
                     System.out.print("Enter current password: ");
                     String current = sc.nextLine();
                     if (!current.equals(customer.getPassword())) {
-                        System.out.println("Wrong current password!");
+                        System.out.println("Wrong current password! Try Again.\n");
                     } else {
                         break;
                     }
@@ -964,13 +964,13 @@ public class Main {
                     System.out.print("Enter new password (At least 6 characters and contain digit): ");
                     String newPass = sc.nextLine();
                     if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
-                        System.out.println("Invalid password format!");
+                        System.out.println("Invalid password format! Try Again.\n");
                         continue;
                     }
                     System.out.print("Confirm new password: ");
                     String confirm = sc.nextLine();
                     if (!confirm.equals(newPass)) {
-                        System.out.println("Passwords do not match! Try again!");
+                        System.out.println("Passwords do not match! Try again.\n");
                     } else {
                         customer.setPassword(confirm);
                         System.out.println("Password updated successfully!");
@@ -985,10 +985,87 @@ public class Main {
                 return; // exit method
 
             default:
-                System.out.println("Invalid choice! Please Try Again!");
+                System.out.println("Invalid choice! Please Try Again.\n");
         
         }
     }while(choice4 != 7);
   }
 
+    public static void reward (Customer customer) {
+        String input5;
+        int choice5;
+        do {
+            System.out.println("\n==============================");
+            System.out.println("     Reward & Voucher Menu    ");
+            System.out.println("==============================");
+            System.out.println("Reward Points: " + customer.getRewardPoints() + " pts");
+            System.out.println("Earn 1 Point for every RM10 spent.");
+            customer.showActiveVouchers();
+            System.out.println("\n[1] Redeem New Voucher");
+            System.out.println("[2] Back to Main Menu");
+            
+            // Input validation loop
+            boolean isNumber;
+            do{
+               System.out.print("\nEnter Your Choice: ");
+               input5 = sc.nextLine().trim();
+                
+               isNumber = true;
+               if(input5.isEmpty()){
+                   isNumber = false;
+               }else{
+                    for (int i = 0; i < input5.length(); i++){
+                        if(!Character.isDigit(input5.charAt(i))){
+                            isNumber = false;
+                            break;
+                        }
+                    }
+               }
+                if(isNumber == false){
+                    System.out.println("Invalid choice! Please choose [1] or [2].\n");
+                }
+            }while(isNumber == false);
+
+            choice5 = Integer.parseInt(input5);
+            
+            switch (choice5) {
+                case 1: {
+                    customer.showAvailableVouchers(vouchers);
+                    System.out.print("\nEnter voucher to redeem (1-" + vouchers.size() + ") OR [B] to go back: ");
+                    String input = sc.nextLine().trim().toUpperCase();
+                    if (input.equals("B")) 
+                        break;
+                    int opt;
+                    try {  //make sure for valid int input
+                        opt = Integer.parseInt(input);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid option! Try Again.\n");
+                        continue;
+                    } 
+
+                    System.out.print("Confirm redeem? (Y/N): ");
+                    String conf = sc.nextLine().trim().toUpperCase();
+                    if (conf.equals("Y")) {
+                        customer.redeemVoucher(opt, vouchers);
+                    } else if (conf.equals("N")){
+                        System.out.println("Redemption cancelled.\n");
+                    }
+                    else {
+                        System.out.println("Invalid! Enter Y or N.\n");
+                    } continue;
+                }
+                case 2: 
+                   System.out.println("Exiting reward redeem...");
+                   return;  //back to menu
+                
+                default:
+                    System.out.println("Invalid choice! Please choose [1] or [2].\n");
+            }
+        } while(choice5 != 2);
+    }  
+
+    
 }
+
+
+

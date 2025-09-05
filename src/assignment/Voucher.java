@@ -1,9 +1,12 @@
 package assignment;
 
+import java.util.List;
+
 public class Voucher {
     private String code;
     private String title;
     private int pointRequired;
+    private int redeemedCount = 0;
     private double discountAmount;
     private boolean used;
 
@@ -11,10 +14,11 @@ public class Voucher {
         this.code = code;
         this.title = title;
         this.pointRequired = pointRequired;
+        this.redeemedCount = 0;
         this.discountAmount = discountAmount;
         this.used = false;
     }
-
+    
     public String getCode() {
         return code;
     }
@@ -31,6 +35,10 @@ public class Voucher {
         return discountAmount;
     }
 
+    public int getRedeemedCount() {
+        return redeemedCount;
+    }
+    
     public boolean isUsed() {
         return used;
     }
@@ -55,5 +63,9 @@ public class Voucher {
         this.used = used;
     }
 
+    public void setRedeemedCount(int redeemedCount) {
+        this.redeemedCount = redeemedCount;
+    }
+    
 }
 
