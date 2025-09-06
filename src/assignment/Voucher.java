@@ -1,7 +1,5 @@
 package assignment;
 
-import java.util.List;
-
 public class Voucher {
     private String code;
     private String title;
