@@ -13,7 +13,6 @@ public class Return {
     private double discount;
     private double finalAmount;
     private boolean hasDamage;
-    
 
     public Return(Rental rental, LocalDateTime returnTime, boolean hasDamage) {
         this.rental = rental;
@@ -54,6 +53,10 @@ public class Return {
     public void setDiscount(double discount) {
         this.discount = discount;
         calculateFees(); 
+    }
+
+    public Rental getRental() {
+        return rental;
     }
     
     private void calculateDuration(){

@@ -13,6 +13,7 @@ public class Main {
     private static List<User> users = new ArrayList<>();
     private static List<Bicycle> bicycles = new ArrayList<>();
     private static List<Rental> rentals = new ArrayList<>();
+    private static List<Return> returns = new ArrayList<>();
     private static List<Voucher> vouchers = new ArrayList<>();
     
     private static int nextBikeNum = 26;
@@ -335,6 +336,7 @@ public class Main {
     }
 
     private static void adminMenu(Admin admin) {
+        Report report = new Report();
         String input3;
         int choice3;
         do{
@@ -375,7 +377,7 @@ public class Main {
                     // manageBicycles()
                     break;
                 case 2: 
-                    // viewReports()
+                    viewReports(report, new ArrayList<>(bicycles), new ArrayList<>(returns));
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -637,6 +639,7 @@ public class Main {
         
         LocalDateTime returnTime = LocalDateTime.now();
         Return rt = new Return(selected,returnTime,hasDamage);
+        returns.add(rt);
         
         //Show summary
         System.out.println("---------------RETURN---------------");
@@ -957,28 +960,30 @@ public class Main {
                     if (!current.equals(customer.getPassword())) {
                         System.out.println("Wrong current password! Try Again.\n");
                     } else {
-                        break;
+                        String oldPassword = current;
+                        while (true) {
+                            System.out.print("Enter new password (At least 6 characters and contain digit): ");
+                            String newPass = sc.nextLine();
+                            if (newPass.equals(oldPassword)) {
+                                System.out.println("New password cannot be the same as the current password! Try again.\n");
+                                continue;
+                            }
+                            if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
+                                System.out.println("Invalid password format! Try Again.\n");
+                                continue;
+                            }
+                            System.out.print("Confirm new password: ");
+                            String confirm = sc.nextLine();
+                            if (!confirm.equals(newPass)) {
+                                System.out.println("Passwords do not match! Try again.\n");
+                            } else {
+                                customer.setPassword(confirm);
+                                System.out.println("Password updated successfully!");
+                                break;
+                            }
+                        } break;
                     }
-                }
-                while (true) {
-                    System.out.print("Enter new password (At least 6 characters and contain digit): ");
-                    String newPass = sc.nextLine();
-                    if (newPass.length() < 6 || !newPass.matches(".*\\d.*")) {
-                        System.out.println("Invalid password format! Try Again.\n");
-                        continue;
-                    }
-                    System.out.print("Confirm new password: ");
-                    String confirm = sc.nextLine();
-                    if (!confirm.equals(newPass)) {
-                        System.out.println("Passwords do not match! Try again.\n");
-                    } else {
-                        customer.setPassword(confirm);
-                        System.out.println("Password updated successfully!");
-                        break;
-                    }
-                }
-                
-                break;
+                } break;
 
             case 7:
                 System.out.println("Exiting profile edit...");
@@ -1063,8 +1068,59 @@ public class Main {
             }
         } while(choice5 != 2);
     }  
-
     
+    public static void viewReports(Report report, List<Bicycle> bicycles, List<Return> returns){
+        System.out.println("\n=== REPORTS MENU ===");
+        System.out.println("[1] Sales Report");
+        System.out.println("[2] Bicycle Rental Report (All Time)");
+        System.out.println("[3] Back to Main Menu");
+        System.out.print("Enter choice: ");
+        String choice6 = sc.nextLine().trim();
+
+        switch(choice6) {
+            case "1":
+                while (true) {
+                    System.out.print("Enter Report Period (MM-YYYY): ");
+                    String period = sc.nextLine().trim();
+
+                    // Validate format: MM-YYYY
+                    if (!period.matches("^(0[1-9]|1[0-2])-(19\\d{2}|20(0\\d|1\\d|2[0-5]))$")) {
+                        System.out.println("Invalid format! Please use MM-YYYY (e.g., 08-2025)\n");
+                        continue;
+                    }
+
+                    // Validate existence in returns
+                    boolean exists = false;
+                    for (Return rt : returns) {
+                        String month = String.format("%02d", rt.getReturnTime().getMonthValue());
+                        String year  = String.valueOf(rt.getReturnTime().getYear());
+                        String rtPeriod = month + "-" + year;
+                        if (rtPeriod.equals(period)) {
+                            exists = true;
+                            break;
+                        }
+                    } 
+
+                    if (!exists) {
+                        System.out.println("No records found for " + period + ". Please try again.\n");
+                        break;
+                    }
+
+                    // If format valid and data exists show report
+                    report.generateSalesReport(returns, period);
+                    break;
+                }
+                break;
+            case "2":
+                report.generateUsageReportAll(bicycles, returns);
+                break;
+            case "3":
+                return;
+            default:
+                System.out.println("Invalid choice. Try Again.\n");
+        }
+    }
+
 }
 
 
