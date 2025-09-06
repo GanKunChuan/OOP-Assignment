@@ -29,13 +29,15 @@ public class Customer extends User{
     
     public void showActiveVouchers() {
         System.out.println("\nYour Active Vouchers:");
-        if (activeVouchers.isEmpty()) {
-            System.out.println(" - (none) -");
-        } else {
-            for (int i = 0; i < activeVouchers.size(); i++) {
-                Voucher v = activeVouchers.get(i);
+        int i = 0;
+        for (Voucher v : activeVouchers) {
+            if(!v.isUsed()){
                 System.out.println((i+1) + ". " + v.getTitle() + " [Code: " + v.getCode() + "]");
-            }
+                i++;
+            }    
+        }
+        if (i == 0) {
+            System.out.println(" - (none) -");
         }
     }
 

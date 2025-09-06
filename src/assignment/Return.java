@@ -54,6 +54,10 @@ public class Return {
         this.discount = discount;
         calculateFees(); 
     }
+    
+    public void setFinalAmount(double finalAmount){
+        this.finalAmount = finalAmount;
+    }
 
     public Rental getRental() {
         return rental;
